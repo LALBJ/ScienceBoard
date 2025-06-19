@@ -90,62 +90,71 @@ uground = lambda cls: Automata(
 
 tars_dpo = lambda cls: Automata(
     model_style="openai",
-    base_url=os.environ["TARS_DPO_URL"],
-    model_name=os.environ["TARS_DPO_NAME"],
+    base_url="http://10.140.37.158:21105/v1/chat/completions",#os.environ["TARS_DPO_URL"],
+    model_name="ui-tars",#os.environ["TARS_DPO_NAME"],
     overflow_style="openai_lmdeploy",
-    code_style="uground"
+    code_style="uitars"
 )(cls)
 
 
 # this file somehow acts as a config file
 # with some sensitive contents hidden in env
 if __name__ == "__main__":
-    AIO_NAME = "gpt_4o"
-    AIO_GROUP = AllInOne(gpt_4o(AIOAgent))
+    AIO_NAME = "tars_dpo"
+    AIO_GROUP = AllInOne(tars_dpo(AIOAgent))
 
-    SA_NAME = "gpt_4o->gpt_4o"
-    SA_GROUP = SeeAct(gpt_4o(PlannerAgent), gpt_4o(GrounderAgent))
+    SA_NAME = "tars_dpo->tars_dpo"
+    SA_GROUP = SeeAct(tars_dpo(PlannerAgent), tars_dpo(GrounderAgent))
 
     # register a tester and execute it
-    Tester(
-        tasks_path="./tasks/Raw",
-        logs_path=f"./logs/{AIO_NAME}-raw-textual",
-        community=AIO_GROUP
-    )()
+    # Tester(
+    #     tasks_path="./tasks/VM",
+    #     logs_path=f"./logs/{AIO_NAME}-raw-textual",
+    #     community=AIO_GROUP,
+    #     vm_path=os.environ["VM_PATH"],
+    # )()
 
     # alternative for Tester.__call__()
     # execute tasks one by one immediately
     Tester.plan([
         {
             "tasks_path": "./tasks/VM",
-            "logs_path": f"./logs/{SA_NAME}-vm-screenshot",
-            "community": SA_GROUP,
+            "logs_path": f"./logs/{AIO_NAME}-vm-screenshot",
+            "community": AIO_GROUP,
             "vm_path": os.environ["VM_PATH"],
             "obs_types": {OBS.screenshot},
             "headless": True
         },
-        {
-            "tasks_path": "./tasks/VM",
-            "logs_path": f"./logs/{AIO_NAME}-vm-a11y_tree",
-            "community": AIO_GROUP,
-            "vm_path": os.environ["VM_PATH"],
-            "obs_types": {OBS.a11y_tree},
-            "headless": True
-        },
-        {
-            "tasks_path": "./tasks/VM",
-            "logs_path": f"./logs/{AIO_NAME}-vm-screenshot+a11y_tree",
-            "community": AIO_GROUP,
-            "vm_path": os.environ["VM_PATH"],
-            "obs_types": {OBS.screenshot, OBS.a11y_tree},
-            "headless": True
-        },
-        {
-            "tasks_path": "./tasks/VM",
-            "logs_path": f"./logs/{AIO_NAME}-vm-set_of_marks",
-            "community": AIO_GROUP,
-            "vm_path": os.environ["VM_PATH"],
-            "obs_types": {OBS.set_of_marks},
-            "headless": True
-        }
+        # {
+        #     "tasks_path": "./tasks/VM",
+        #     "logs_path": f"./logs/{SA_NAME}-vm-screenshot",
+        #     "community": SA_GROUP,
+        #     "vm_path": os.environ["VM_PATH"],
+        #     "obs_types": {OBS.screenshot},
+        #     "headless": True
+        # },
+        # {
+        #     "tasks_path": "./tasks/VM",
+        #     "logs_path": f"./logs/{AIO_NAME}-vm-a11y_tree",
+        #     "community": AIO_GROUP,
+        #     "vm_path": os.environ["VM_PATH"],
+        #     "obs_types": {OBS.a11y_tree},
+        #     "headless": True
+        # },
+        # {
+        #     "tasks_path": "./tasks/VM",
+        #     "logs_path": f"./logs/{AIO_NAME}-vm-screenshot+a11y_tree",
+        #     "community": AIO_GROUP,
+        #     "vm_path": os.environ["VM_PATH"],
+        #     "obs_types": {OBS.screenshot, OBS.a11y_tree},
+        #     "headless": True
+        # },
+        # {
+        #     "tasks_path": "./tasks/VM",
+        #     "logs_path": f"./logs/{AIO_NAME}-vm-set_of_marks",
+        #     "community": AIO_GROUP,
+        #     "vm_path": os.environ["VM_PATH"],
+        #     "obs_types": {OBS.set_of_marks},
+        #     "headless": True
+        # }
     ])
