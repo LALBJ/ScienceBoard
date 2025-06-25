@@ -90,7 +90,7 @@ uground = lambda cls: Automata(
 
 tars_dpo = lambda cls: Automata(
     model_style="openai",
-    base_url="http://10.140.37.158:21105/v1/chat/completions",#os.environ["TARS_DPO_URL"],
+    base_url="http://10.140.60.63:30009/v1/chat/completions",#os.environ["TARS_DPO_URL"],
     model_name="ui-tars",#os.environ["TARS_DPO_NAME"],
     overflow_style="openai_lmdeploy",
     code_style="uitars"

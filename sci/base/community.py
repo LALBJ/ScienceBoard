@@ -1,8 +1,13 @@
+import json
 import sys
+
+import os
 
 from typing import List, Tuple, Dict
 from typing import Optional, Any, Self
 from dataclasses import dataclass
+
+from .model import Message, TextContent
 
 sys.dont_write_bytecode = True
 from .manager import OBS
@@ -68,7 +73,21 @@ class AllInOne(Community):
         } if step_index == 0 else None
 
         user_content = self.mono._step(obs, init_kwargs)
-        response_message = self.mono(user_content, timeout=timeout)
+
+        DEBUG_MODE = os.environ.get("DEBUG_MODE", "False").lower() == "true"
+        if DEBUG_MODE:
+            # for debugging purpose, 直接加载 debug 文件
+            ACTION_PATH = os.environ.get("ACTION_PATH", None)
+            with open(ACTION_PATH, "r") as f:
+                history = json.loads(f.read())
+                assistant_content = [content for content in history if content["role"] == "assistant"]
+                response_message = Message(
+                    style="openai",
+                    role="assistant",
+                    content=[TextContent(assistant_content[step_index]["content"][0]["text"])],
+                )
+        else:
+            response_message = self.mono(user_content, timeout=timeout)
 
         assert len(response_message.content) == 1
         response_content = response_message.content[0]

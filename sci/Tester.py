@@ -344,22 +344,30 @@ class Tester:
         )
 
     def __traverse(self, current_infix: str = "") -> None:
-        current_dir_path = os.path.join(self.tasks_path, current_infix)
-        for unknown_name in sorted(os.listdir(current_dir_path)):
-            unknown_path = os.path.join(current_dir_path, unknown_name)
-            if os.path.isfile(unknown_path):
-                try:
-                    new_task = self.__load(unknown_path)
-                    new_task.vlog.set(self.log)
-                    self.task_info.append(TaskInfo(new_task, infix=current_infix))
-                except Exception:
-                    error_info = "Config loading failed; skipped: " \
-                        + unknown_path \
-                        + "\n" \
-                        + traceback.format_exc()
-                    self.log.error(error_info)
-            else:
-                self.__traverse(os.path.join(current_infix, unknown_name))
+        DEBUG_MODE = os.environ.get("DEBUG_MODE", "False").lower() == "true"
+        if DEBUG_MODE:
+            # for debugging purpose, 直接加载 debug 文件
+            TASK_PATH = os.environ.get("TASK_PATH", None)
+            new_task = self.__load(TASK_PATH)
+            new_task.vlog.set(self.log)
+            self.task_info.append(TaskInfo(new_task, infix=current_infix))
+        else:
+            current_dir_path = os.path.join(self.tasks_path, current_infix)
+            for unknown_name in sorted(os.listdir(current_dir_path)):
+                unknown_path = os.path.join(current_dir_path, unknown_name)
+                if os.path.isfile(unknown_path):
+                    try:
+                        new_task = self.__load(unknown_path)
+                        new_task.vlog.set(self.log)
+                        self.task_info.append(TaskInfo(new_task, infix=current_infix))
+                    except Exception:
+                        error_info = "Config loading failed; skipped: " \
+                            + unknown_path \
+                            + "\n" \
+                            + traceback.format_exc()
+                        self.log.error(error_info)
+                else:
+                    self.__traverse(os.path.join(current_infix, unknown_name))
 
     @staticmethod
     def _log_handler(method: Callable) -> Callable:
