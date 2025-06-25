@@ -28,6 +28,11 @@ import ast
 RAW = TypeSort.Sort.Raw
 VM = TypeSort.Sort.VM
 
+IMAGE_FACTOR = 28
+MIN_PIXELS = 100 * 28 * 28
+MAX_PIXELS = 16384 * 28 * 28
+MAX_RATIO = 200
+
 FINISH_WORD = "finished"
 WAIT_WORD = "wait"
 ENV_FAIL_WORD = "error_env"
@@ -56,6 +61,228 @@ finished()
 - Write a small plan and finally summarize your next action (with its target element) in one sentence in `Thought` part.
 
 """
+
+def escape_single_quotes(text):
+    # 匹配未转义的单引号（不匹配 \\'）
+    pattern = r"(?<!\\)'"
+    return re.sub(pattern, r"\\'", text)
+
+def fix_click_output(output: str) -> str:
+    # 直接匹配两个逗号分隔的数字，不考虑括号
+    matches = re.findall(r'(\d+)\s*,\s*(\d+)', output)
+
+    if matches:
+        # 取最后一个匹配到的坐标
+        x, y = matches[-1]
+        return f"click(start_box='({x},{y})')"
+    else:
+        return None  # 没有找到任何有效的坐标时返回
+
+def round_by_factor(number: int, factor: int) -> int:
+    """Returns the closest integer to 'number' that is divisible by 'factor'."""
+    return round(number / factor) * factor
+
+
+def ceil_by_factor(number: int, factor: int) -> int:
+    """Returns the smallest integer greater than or equal to 'number' that is divisible by 'factor'."""
+    return math.ceil(number / factor) * factor
+
+
+def floor_by_factor(number: int, factor: int) -> int:
+    """Returns the largest integer less than or equal to 'number' that is divisible by 'factor'."""
+    return math.floor(number / factor) * factor
+
+def convert_point_to_coordinates(text, is_answer=False):
+    # 匹配 <bbox> 后面的四个数字
+    pattern = r"<point>(\d+)\s+(\d+)</point>"
+
+    def replace_match(match):
+        x1, y1 = map(int, match.groups())
+        x = (x1 + x1) // 2  # 使用截断取整
+        y = (y1 + y1) // 2  # 使用截断取整
+        if is_answer:
+            return f"({x},{y})"  # 只返回 (x, y) 格式
+        return f"({x},{y})"  # 返回带标签的格式
+
+    # 去掉 [EOS] 并替换 <bbox> 坐标
+    text = re.sub(r"\[EOS\]", "", text)
+    return re.sub(pattern, replace_match, text).strip()
+
+
+def linear_resize(
+    height: int, width: int, factor: int = IMAGE_FACTOR, min_pixels: int = MIN_PIXELS, max_pixels: int = MAX_PIXELS
+) -> tuple[int, int]:
+    if width * height > max_pixels:
+        """
+        如果图片超过/低于像素限制，则计算一个缩放因子resize_factor，使图片的像素数缩小到等于或小于max_pixels。这个缩放因子是通过开平方根计算的，确保纵横比保持不变,这样原始的相对坐标可以不经转换直接复用
+        """
+        resize_factor = math.sqrt(max_pixels / (width * height))
+        width, height = int(width * resize_factor), int(height * resize_factor)
+    if width * height < min_pixels:
+        resize_factor = math.sqrt(min_pixels / (width * height))
+        width, height = math.ceil(width * resize_factor), math.ceil(height * resize_factor)
+
+    return height, width 
+
+def smart_resize(
+    height: int, width: int, factor: int = IMAGE_FACTOR, min_pixels: int = MIN_PIXELS, max_pixels: int = MAX_PIXELS
+) -> tuple[int, int]:
+    """
+    Rescales the image so that the following conditions are met:
+
+    1. Both dimensions (height and width) are divisible by 'factor'.
+
+    2. The total number of pixels is within the range ['min_pixels', 'max_pixels'].
+
+    3. The aspect ratio of the image is maintained as closely as possible.
+    """
+    if max(height, width) / min(height, width) > MAX_RATIO:
+        raise ValueError(
+            f"absolute aspect ratio must be smaller than {MAX_RATIO}, got {max(height, width) / min(height, width)}"
+        )
+    h_bar = max(factor, round_by_factor(height, factor))
+    w_bar = max(factor, round_by_factor(width, factor))
+    if h_bar * w_bar > max_pixels:
+        beta = math.sqrt((height * width) / max_pixels)
+        h_bar = floor_by_factor(height / beta, factor)
+        w_bar = floor_by_factor(width / beta, factor)
+    elif h_bar * w_bar < min_pixels:
+        beta = math.sqrt(min_pixels / (height * width))
+        h_bar = ceil_by_factor(height * beta, factor)
+        w_bar = ceil_by_factor(width * beta, factor)
+    return h_bar, w_bar
+
+def parse_action_to_structure_output(text,
+                                     factor,
+                                     origin_resized_height,
+                                     origin_resized_width,
+                                     model_type="qwen25vl",
+                                     max_pixels=16384 * 28 * 28,
+                                     min_pixels=100 * 28 * 28):
+    text = text.strip()
+
+    if "<point>" in text:
+        text = convert_point_to_coordinates(text)
+    if "start_point=" in text:
+        text = text.replace("start_point=", "start_box=")
+    if "end_point=" in text:
+        text = text.replace("end_point=", "end_box=")
+    if "point=" in text:
+        text = text.replace("point=", "start_box=")
+
+    if model_type == "qwen25vl":
+        smart_resize_height, smart_resize_width = smart_resize(
+            origin_resized_height,
+            origin_resized_width,
+            factor=IMAGE_FACTOR,
+            min_pixels=min_pixels,
+            max_pixels=max_pixels)
+
+    # 正则表达式匹配 Action 字符串
+    if text.startswith("Thought:"):
+        thought_pattern = r"Thought: (.+?)(?=\s*Action: |$)"
+        thought_hint = "Thought: "
+    elif text.startswith("Reflection:"):
+        thought_pattern = r"Reflection: (.+?)Action_Summary: (.+?)(?=\s*Action: |$)"
+        thought_hint = "Reflection: "
+    elif text.startswith("Action_Summary:"):
+        thought_pattern = r"Action_Summary: (.+?)(?=\s*Action: |$)"
+        thought_hint = "Action_Summary: "
+    else:
+        thought_pattern = r"Thought: (.+?)(?=\s*Action: |$)"
+        thought_hint = "Thought: "
+    reflection, thought = None, None
+    thought_match = re.search(thought_pattern, text, re.DOTALL)
+    if thought_match:
+        if len(thought_match.groups()) == 1:
+            thought = thought_match.group(1).strip()
+        elif len(thought_match.groups()) == 2:
+            thought = thought_match.group(2).strip()
+            reflection = thought_match.group(1).strip()
+    assert "Action:" in text
+    action_str = text.split("Action: ")[-1]
+
+    tmp_all_action = action_str.split(")\n\n")
+    all_action = []
+    for action_str in tmp_all_action:
+        if "type(content" in action_str:
+            if not action_str.strip().endswith(")"):
+                action_str = action_str.strip() + ")"
+            # 正则表达式匹配 content 中的字符串并转义单引号
+            def escape_quotes(match):
+                content = match.group(1)  # 获取 content 的值
+                return content
+
+            # 使用正则表达式进行替换
+            pattern = r"type\(content='(.*?)'\)"  # 匹配 type(content='...')
+            if re.search(pattern, action_str):  # 检查是否有匹配项
+                content = re.sub(pattern, escape_quotes, action_str)
+            else:
+                raise ValueError("Pattern not found in the input string.")
+
+            # 处理字符串
+            action_str = escape_single_quotes(content)
+            action_str = "type(content='" + action_str + "')"
+        if not action_str.strip().endswith(")"):
+            action_str = action_str.strip() + ")"
+        all_action.append(action_str)
+
+    parsed_actions = [
+        parse_action(action.replace("\n", "\\n").lstrip())
+        for action in all_action
+    ]
+    actions = []
+    for action_instance, raw_str in zip(parsed_actions, all_action):
+        if action_instance == None:
+            print(f"Action can't parse: {raw_str}")
+            raise ValueError(f"Action can't parse: {raw_str}")
+        action_type = action_instance["function"]
+        params = action_instance["args"]
+
+        # import pdb; pdb.set_trace()
+        action_inputs = {}
+        for param_name, param in params.items():
+            if param == "": continue
+            param = param.lstrip()  # 去掉引号和多余的空格
+            # 处理start_box或者end_box参数格式 '<bbox>x1 y1 x2 y2</bbox>'
+            action_inputs[param_name.strip()] = param
+
+            if "start_box" in param_name or "end_box" in param_name:
+                ori_box = param
+                # Remove parentheses and split the string by commas
+                numbers = ori_box.replace("(", "").replace(")", "").split(",")
+
+                # Convert to float and scale by 1000
+                # Qwen2.5vl output absolute coordinates, qwen2vl output relative coordinates
+                if model_type == "qwen25vl":
+                    float_numbers = []
+                    for num_idx, num in enumerate(numbers):
+                        num = float(num)
+                        if (num_idx + 1) % 2 == 0:
+                            float_numbers.append(
+                                float(num / smart_resize_height))
+                        else:
+                            float_numbers.append(
+                                float(num / smart_resize_width))
+                else:
+                    float_numbers = [float(num) / factor for num in numbers]
+
+                if len(float_numbers) == 2:
+                    float_numbers = [
+                        float_numbers[0], float_numbers[1], float_numbers[0],
+                        float_numbers[1]
+                    ]
+                action_inputs[param_name.strip()] = str(float_numbers)
+
+        # import pdb; pdb.set_trace()
+        actions.append({
+            "reflection": reflection,
+            "thought": thought,
+            "action_type": action_type,
+            "action_inputs": action_inputs,
+            "text": text
+        })
+    return actions
 
 def parsing_response_to_pyautogui_code(responses, image_height: int, image_width:int, input_swap:bool=True) -> str:
     '''
@@ -190,11 +417,11 @@ def parsing_response_to_pyautogui_code(responses, image_height: int, image_width
             end_box = action_inputs.get("end_box")
             if start_box and end_box:
                 x1, y1, x2, y2 = eval(start_box)  # Assuming box is in [x1, y1, x2, y2]
-                sx = round(float((x1 + x2) / 2) * image_width, 3)
-                sy = round(float((y1 + y2) / 2) * image_height, 3)
+                sx = round(float((x1 + x2) / 2), 3)
+                sy = round(float((y1 + y2) / 2), 3)
                 x1, y1, x2, y2 = eval(end_box)  # Assuming box is in [x1, y1, x2, y2]
-                ex = round(float((x1 + x2) / 2) * image_width, 3)
-                ey = round(float((y1 + y2) / 2) * image_height, 3)
+                ex = round(float((x1 + x2) / 2), 3)
+                ey = round(float((y1 + y2) / 2), 3)
                 pyautogui_code += (
                     f"\npyautogui.moveTo({sx}, {sy})\n"
                     f"\npyautogui.dragTo({ex}, {ey}, duration=1.0)\n"
@@ -205,8 +432,8 @@ def parsing_response_to_pyautogui_code(responses, image_height: int, image_width
             start_box = action_inputs.get("start_box")
             if start_box:
                 x1, y1, x2, y2 = eval(start_box)  # Assuming box is in [x1, y1, x2, y2]
-                x = round(float((x1 + x2) / 2) * image_width, 3)
-                y = round(float((y1 + y2) / 2) * image_height, 3)
+                x = round(float((x1 + x2) / 2), 3)
+                y = round(float((y1 + y2) / 2), 3)
 
                 # # 先点对应区域，再滚动
                 # pyautogui_code += f"\npyautogui.click({x}, {y}, button='left')"
@@ -642,6 +869,42 @@ class CodeLike:
             CodeLike(code=code, prefix=relative_py)
             for code in action_codes
         ]
+    
+    @staticmethod
+    def extract_uitars1_5(content: TextContent, *args, **kwargs) -> List[Self]:
+        parsed_responses = parse_action_to_structure_output(
+            content.text,
+            IMAGE_FACTOR, #action_parse_res_factor,
+            800, #screen_size[1],
+            1280, #screen_size[0]
+        )
+
+        action_codes = []
+        for parsed_response in parsed_responses:
+            if "action_type" in parsed_response:
+                if parsed_response["action_type"] == FINISH_WORD:
+                    action_codes.append("DONE")
+                
+                elif parsed_response["action_type"] == WAIT_WORD:
+                    action_codes.append("WAIT")
+                
+                elif parsed_response["action_type"] == ENV_FAIL_WORD:
+                    action_codes.append("FAIL")
+
+            try:
+                pyautogui_code = parsing_response_to_pyautogui_code(
+                    parsed_response,
+                    1000, #action_parse_res_factor,
+                    800, #screen_size[1],
+                    1280, #screen_size[0]
+                )
+                action_codes.append(pyautogui_code)
+            except Exception as e:
+                print(f"Parsing pyautogui code error: {parsed_response}, with error:\n{e}")
+        return [
+            CodeLike(code=code, prefix=relative_py)
+            for code in action_codes
+        ]
 
     @staticmethod
     def wrap_uground(doc_str: str) -> str:
@@ -650,6 +913,11 @@ class CodeLike:
     
     @staticmethod
     def wrap_uitars(doc_str: str) -> str:
+        # this function will not be called
+        return doc_str
+    
+    @staticmethod
+    def wrap_uitars1_5(doc_str: str) -> str:
         # this function will not be called
         return doc_str
 
