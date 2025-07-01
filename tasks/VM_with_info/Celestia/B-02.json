@@ -2,7 +2,7 @@
     "type": "Celestia",
     "sort": "VM",
     "steps": 5,
-    "instruction": "Go to Neptune in Celestia.",
+    "instruction": "Go to Neptune in Celestia.\n## Information \n Right click the planet and select 'Go to'.",
     "version": "0.1",
     "snapshot": "sci_bench",
     "initialize": [

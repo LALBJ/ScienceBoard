@@ -2,7 +2,7 @@
     "type": "Celestia",
     "sort": "VM",
     "steps": 5,
-    "instruction": "Display both the equatorial coordinate grid and the horizental coordinate grid at the same time in Celestia.",
+    "instruction": "Display both the equatorial coordinate grid and the horizental coordinate grid at the same time in Celestia. ## Information\nThe conrtrol button is in the tool bar.",
     "version": "0.1",
     "snapshot": "sci_bench",
     "initialize": [
@@ -30,3 +30,4 @@
         }
     ]
 }
+

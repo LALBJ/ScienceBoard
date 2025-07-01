@@ -2,7 +2,7 @@
     "type": "Celestia",
     "sort": "VM",
     "steps": 5,
-    "instruction": "Hide Mercury in Celestia.",
+    "instruction": "Hide Mercury in Celestia.\n## Information \n Right click the planet and select 'Hide'.",
     "version": "0.1",
     "snapshot": "sci_bench",
     "initialize": [

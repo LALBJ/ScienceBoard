@@ -2,7 +2,7 @@
     "type": "Celestia",
     "sort": "VM",
     "steps": 5,
-    "instruction": "Set the Julian date to 2400000 in Celestia.",
+    "instruction": "Set the Julian date to 2400000 in Celestia. ## Information\nWithin Celestia it is also possible to obtain a Julian Date from a normal calendar date. \n1. Select the \"Time\" option in the menu bar. \n2. Next select the option \"Set Time …\" after which a \"Set Simulation Time\" window will be displayed.",
     "version": "0.1",
     "snapshot": "sci_bench",
     "initialize": [
@@ -26,5 +26,3 @@
         }
     ]
 }
-
-Note: Within Celestia it is also possible to obtain a Julian Date from a normal calendar date. Select the "Time" option in the menu bar. Next select the option "Set Time …" after which a "Set Simulation Time" window will be displayed.

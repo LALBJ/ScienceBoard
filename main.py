@@ -90,7 +90,7 @@ uground = lambda cls: Automata(
 
 tars_dpo = lambda cls: Automata(
     model_style="openai",
-    base_url="http://10.140.66.61:30009/v1/chat/completions",#os.environ["TARS_DPO_URL"],
+    base_url="http://10.140.60.166:30009/v1/chat/completions",#os.environ["TARS_DPO_URL"],
     model_name="ui-tars",#os.environ["TARS_DPO_NAME"],
     overflow_style="openai_lmdeploy",
     code_style="uitars1_5"
@@ -118,7 +118,7 @@ if __name__ == "__main__":
     # execute tasks one by one immediately
     Tester.plan([
         {
-            "tasks_path": "./tasks/VM",
+            "tasks_path": "./tasks/VM_with_info",
             "logs_path": f"./logs/{AIO_NAME}-vm-screenshot",
             "community": AIO_GROUP,
             "vm_path": os.environ["VM_PATH"],

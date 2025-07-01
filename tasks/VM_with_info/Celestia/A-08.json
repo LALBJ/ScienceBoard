@@ -2,7 +2,7 @@
     "type": "Celestia",
     "sort": "VM",
     "steps": 5,
-    "instruction": "Change texture resolution to 'high' in Celestia.",
+    "instruction": "Change texture resolution to 'high' in Celestia.\n## Information \nThe control button is in the menu bar.",
     "version": "0.1",
     "snapshot": "sci_bench",
     "initialize": [

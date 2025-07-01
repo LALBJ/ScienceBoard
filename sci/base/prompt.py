@@ -432,8 +432,8 @@ def parsing_response_to_pyautogui_code(responses, image_height: int, image_width
             start_box = action_inputs.get("start_box")
             if start_box:
                 x1, y1, x2, y2 = eval(start_box)  # Assuming box is in [x1, y1, x2, y2]
-                x = round(float((x1 + x2) / 2), 3)
-                y = round(float((y1 + y2) / 2), 3)
+                x = round(float((x1 + x2) / 2) * image_width, 3)
+                y = round(float((y1 + y2) / 2) * image_height, 3)
 
                 # # 先点对应区域，再滚动
                 # pyautogui_code += f"\npyautogui.click({x}, {y}, button='left')"
@@ -858,9 +858,9 @@ class CodeLike:
             try:
                 pyautogui_code = parsing_response_to_pyautogui_code(
                     parsed_response,
-                    1000, #action_parse_res_factor,
                     800, #screen_size[1],
                     1280, #screen_size[0]
+                    input_swap=False,
                 )
                 action_codes.append(pyautogui_code)
             except Exception as e:
@@ -884,19 +884,22 @@ class CodeLike:
             if "action_type" in parsed_response:
                 if parsed_response["action_type"] == FINISH_WORD:
                     action_codes.append("DONE")
+                    continue
                 
                 elif parsed_response["action_type"] == WAIT_WORD:
                     action_codes.append("WAIT")
+                    continue
                 
                 elif parsed_response["action_type"] == ENV_FAIL_WORD:
                     action_codes.append("FAIL")
+                    continue
 
             try:
                 pyautogui_code = parsing_response_to_pyautogui_code(
                     parsed_response,
-                    1000, #action_parse_res_factor,
                     800, #screen_size[1],
                     1280, #screen_size[0]
+                    input_swap=False
                 )
                 action_codes.append(pyautogui_code)
             except Exception as e:

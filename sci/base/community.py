@@ -75,9 +75,9 @@ class AllInOne(Community):
         user_content = self.mono._step(obs, init_kwargs)
 
         DEBUG_MODE = os.environ.get("DEBUG_MODE", "False").lower() == "true"
-        if DEBUG_MODE:
+        ACTION_PATH = os.environ.get("ACTION_PATH", None)
+        if DEBUG_MODE and ACTION_PATH is not None:
             # for debugging purpose, 直接加载 debug 文件
-            ACTION_PATH = os.environ.get("ACTION_PATH", None)
             with open(ACTION_PATH, "r") as f:
                 history = json.loads(f.read())
                 assistant_content = [content for content in history if content["role"] == "assistant"]

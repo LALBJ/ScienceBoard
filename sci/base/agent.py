@@ -143,6 +143,7 @@ class Agent:
         assert context_length >= 0, "Error when calculating context length"
 
         self.context.append(self.model.message(role="user", content=contents))
+        
         response = self.model(self.dump_payload(context_length), timeout)
 
         is_overflow = False if self.overflow_handler is None \

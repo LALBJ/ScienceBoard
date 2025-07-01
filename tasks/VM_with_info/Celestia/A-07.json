@@ -2,7 +2,7 @@
     "type": "Celestia",
     "sort": "VM",
     "steps": 5,
-    "instruction": "Change star style to 'scaled discs' in Celestia.",
+    "instruction": "Change star style to 'scaled discs' in Celestia.\n## Information \nKey  Effect\nCtrl+S   Cycle the Star Style (points / fuzzy discs / scaled discs)",
     "version": "0.1",
     "snapshot": "sci_bench",
     "initialize": [

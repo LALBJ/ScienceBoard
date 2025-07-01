@@ -2,7 +2,7 @@
     "type": "Celestia",
     "sort": "VM",
     "steps": 5,
-    "instruction": "Display constellations with their boundries in Celestia.",
+    "instruction": "Display constellations with their boundries in Celestia.\n## Information \nThe conrtrol button is in the tool bar.",
     "version": "0.1",
     "snapshot": "sci_bench",
     "initialize": [
@@ -30,5 +30,3 @@
         }
     ]
 }
-
-The customisation in Celestia is quite extensive, and this section will explain each of the  options available in the Display menu. You can specifically select which aspects of space you want to be visible, there isn’t just one general On/Off switch for everything. 
