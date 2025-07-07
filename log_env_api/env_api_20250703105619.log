@@ -1,0 +1,42 @@
+]11;?\]10;?\
+   FastAPI   Starting production server 🚀
+ 
+             Searching for package file structure from directories with __init__.py files
+             Importing from /data/code/ScienceBoard/env_server
+ 
+    module   🐍 env_server_launch.py
+ 
+      code   Importing the FastAPI app object from the module with the following code:
+ 
+             from env_server_launch import app
+ 
+       app   Using import string: env_server_launch:app
+ 
+    server   Server started at http://0.0.0.0:10025
+    server   Documentation at http://0.0.0.0:10025/docs
+ 
+             Logs:
+ 
+]11;?\]10;?\]11;?\]10;?\      INFO   Started server process [92665]
+      INFO   Waiting for application startup.
+      INFO   Application startup complete.
+      INFO   Uvicorn running on http://0.0.0.0:10025 (Press CTRL+C to quit)
+      INFO   127.0.0.1:40422 - "GET / HTTP/1.1" 200
+[2025-07-03 10:56:33] [env api] vitual machine starting...
+Starting VMware VM...
+[2025-07-03 10:56:34] [env api] vitual machine done.
+      INFO   127.0.0.1:40438 - "POST /start HTTP/1.1" 200
+      INFO   127.0.0.1:40448 - "POST /get_task_config HTTP/1.1" 200
+[2025-07-03 10:56:36] [env api] env reset starting...
+[2025-07-03 10:56:36] [env api] reset failed: 'SciEnv' object has no attribute '_revert_to_snapshot'
+      INFO   127.0.0.1:40464 - "POST /reset HTTP/1.1" 200
+Traceback (most recent call last):
+  File "/data/code/ScienceBoard/env_server/env_server_launch.py", line 109, in evaluate
+    metric = manager.evaluate()
+             ^^^^^^^^^^^^^^^^^^
+  File "/data/code/ScienceBoard/env_server/manager/base.py", line 140, in evaluate
+    result = self.metric.eval()
+             ^^^^^^^^^^^
+AttributeError: 'CelestiaManager' object has no attribute 'metric'
+[2025-07-03 10:56:37] [env api] evaluate failed: 'CelestiaManager' object has no attribute 'metric'
+      INFO   127.0.0.1:40472 - "GET /evaluate HTTP/1.1" 200

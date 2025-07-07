@@ -1,0 +1,77 @@
+]11;?\]10;?\
+   FastAPI   Starting production server 🚀
+ 
+             Searching for package file structure from directories with __init__.py files
+             Importing from /data/code/ScienceBoard/env_server
+ 
+    module   🐍 env_server_launch.py
+ 
+      code   Importing the FastAPI app object from the module with the following code:
+ 
+             from env_server_launch import app
+ 
+       app   Using import string: env_server_launch:app
+ 
+    server   Server started at http://0.0.0.0:10013
+    server   Documentation at http://0.0.0.0:10013/docs
+ 
+             Logs:
+ 
+]11;?\]10;?\]11;?\]10;?\      INFO   Started server process [100135]
+      INFO   Waiting for application startup.
+      INFO   Application startup complete.
+      INFO   Uvicorn running on http://0.0.0.0:10013 (Press CTRL+C to quit)
+      INFO   127.0.0.1:42332 - "GET / HTTP/1.1" 200
+[2025-07-03 11:09:29] [env api] vitual machine starting...
+Starting VMware VM...
+[2025-07-03 11:09:30] [env api] vitual machine done.
+      INFO   127.0.0.1:42342 - "POST /start HTTP/1.1" 200
+      INFO   127.0.0.1:41550 - "POST /get_task_config HTTP/1.1" 200
+[2025-07-03 11:09:32] [env api] env reset starting...
+Starting VMware VM...
+execute payload /bin/bash /home/user/server/reset.sh True
+base url http://192.168.23.129:5000/setup/execute
+request payload {'json': {'command': '/bin/bash /home/user/server/reset.sh', 'shell': True}, 'headers': {'Content-Type': 'application/json'}}
+API server reset response: True
+base url http://192.168.23.129:5000/opt
+request payload {'json': {'depth': 6}, 'headers': {'Content-Type': 'application/json'}}
+execute payload LD_LIBRARY_PATH=/home/user/6.5.0/gcc_64/lib /app/bin/celestia-qt6 5000 True
+base url http://192.168.23.129:5000/setup/launch
+request payload {'json': {'command': 'LD_LIBRARY_PATH=/home/user/6.5.0/gcc_64/lib /app/bin/celestia-qt6 5000', 'shell': True}, 'headers': {'Content-Type': 'application/json'}}
+logging succeed True
+[2025-07-03 11:09:54] [env api] env reset done...
+      INFO   127.0.0.1:41554 - "POST /reset HTTP/1.1" 200
+Traceback (most recent call last):
+  File "/home/PJLAB/wangxuehui/miniconda3/envs/sci/lib/python3.11/site-packages/requests/models.py", line 971, in json
+    return complexjson.loads(self.text, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/PJLAB/wangxuehui/miniconda3/envs/sci/lib/python3.11/json/__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/PJLAB/wangxuehui/miniconda3/envs/sci/lib/python3.11/json/decoder.py", line 337, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/PJLAB/wangxuehui/miniconda3/envs/sci/lib/python3.11/json/decoder.py", line 355, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/data/code/ScienceBoard/env_server/env_server_launch.py", line 119, in evaluate
+    metric = manager.evaluate()
+             ^^^^^^^^^^^^^^^^^^
+  File "/data/code/ScienceBoard/env_server/manager/base.py", line 140, in evaluate
+    result = self.metric.eval()
+             ^^^^^^^^^^^^^^^^^^
+  File "/data/code/ScienceBoard/env_server/eval/Celestia/eval.py", line 15, in eval
+    info = self.manager.status_dump(self.query)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/code/ScienceBoard/env_server/manager/Celestia/manager.py", line 29, in status_dump
+    return self._post("/dump", data=json.dumps(query)).json()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/PJLAB/wangxuehui/miniconda3/envs/sci/lib/python3.11/site-packages/requests/models.py", line 975, in json
+    raise RequestsJSONDecodeError(e.msg, e.doc, e.pos)
+requests.exceptions.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+[2025-07-03 11:09:55] [env api] evaluate failed: Expecting value: line 1 column 1 (char 0)
+      INFO   127.0.0.1:33190 - "GET /evaluate HTTP/1.1" 200

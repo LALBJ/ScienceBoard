@@ -1,0 +1,102 @@
+]11;?\]10;?\
+   FastAPI   Starting production server 🚀
+ 
+             Searching for package file structure from directories with __init__.py files
+             Importing from /data/code/ScienceBoard/env_server
+ 
+    module   🐍 env_server_launch.py
+ 
+      code   Importing the FastAPI app object from the module with the following code:
+ 
+             from env_server_launch import app
+ 
+       app   Using import string: env_server_launch:app
+ 
+    server   Server started at http://0.0.0.0:10019
+    server   Documentation at http://0.0.0.0:10019/docs
+ 
+             Logs:
+ 
+]11;?\]10;?\]11;?\]10;?\      INFO   Started server process [3763600]
+      INFO   Waiting for application startup.
+      INFO   Application startup complete.
+      INFO   Uvicorn running on http://0.0.0.0:10019 (Press CTRL+C to quit)
+      INFO   127.0.0.1:51198 - "GET / HTTP/1.1" 200
+[2025-07-02 14:42:15] [env api] vitual machine starting...
+Starting VMware VM...
+[2025-07-02 14:42:16] [env api] vitual machine done.
+      INFO   127.0.0.1:51208 - "POST /start HTTP/1.1" 200
+      INFO   127.0.0.1:51222 - "POST /get_task_config HTTP/1.1" 200
+[2025-07-02 14:42:18] [env api] env reset starting...
+Starting VMware VM...
+execute payload /bin/bash /home/user/server/reset.sh True
+base url http://192.168.23.129:5000/setup/execute
+request payload {'json': {'command': '/bin/bash /home/user/server/reset.sh', 'shell': True}, 'headers': {'Content-Type': 'application/json'}}
+API server reset response: True
+base url http://192.168.23.129:5000/opt
+request payload {'json': {'depth': 6}, 'headers': {'Content-Type': 'application/json'}}
+execute payload LD_LIBRARY_PATH=/home/user/6.5.0/gcc_64/lib /app/bin/celestia-qt6 8000 True
+base url http://192.168.23.129:5000/setup/launch
+request payload {'json': {'command': 'LD_LIBRARY_PATH=/home/user/6.5.0/gcc_64/lib /app/bin/celestia-qt6 8000', 'shell': True}, 'headers': {'Content-Type': 'application/json'}}
+logging succeed True
+[2025-07-02 14:42:39] [env api] env reset done...
+      INFO   127.0.0.1:51226 - "POST /reset HTTP/1.1" 500
+     ERROR   Exception in ASGI application
+Traceback (most recent call last):
+  File "/home/PJLAB/wangxuehui/miniconda3/envs/sci/lib/python3.11/site-packages/uvicorn/protocols/http/httptools_impl.py", line 409, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/PJLAB/wangxuehui/miniconda3/envs/sci/lib/python3.11/site-packages/uvicorn/middleware/proxy_headers.py", line 60, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/PJLAB/wangxuehui/miniconda3/envs/sci/lib/python3.11/site-packages/fastapi/applications.py", line 1054, in __call__
+    await super().__call__(scope, receive, send)
+  File "/home/PJLAB/wangxuehui/miniconda3/envs/sci/lib/python3.11/site-packages/starlette/applications.py", line 112, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/home/PJLAB/wangxuehui/miniconda3/envs/sci/lib/python3.11/site-packages/starlette/middleware/errors.py", line 187, in __call__
+    raise exc
+  File "/home/PJLAB/wangxuehui/miniconda3/envs/sci/lib/python3.11/site-packages/starlette/middleware/errors.py", line 165, in __call__
+    await self.app(scope, receive, _send)
+  File "/home/PJLAB/wangxuehui/miniconda3/envs/sci/lib/python3.11/site-packages/starlette/middleware/exceptions.py", line 62, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/home/PJLAB/wangxuehui/miniconda3/envs/sci/lib/python3.11/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/PJLAB/wangxuehui/miniconda3/envs/sci/lib/python3.11/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/PJLAB/wangxuehui/miniconda3/envs/sci/lib/python3.11/site-packages/starlette/routing.py", line 714, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/home/PJLAB/wangxuehui/miniconda3/envs/sci/lib/python3.11/site-packages/starlette/routing.py", line 734, in app
+    await route.handle(scope, receive, send)
+  File "/home/PJLAB/wangxuehui/miniconda3/envs/sci/lib/python3.11/site-packages/starlette/routing.py", line 288, in handle
+    await self.app(scope, receive, send)
+  File "/home/PJLAB/wangxuehui/miniconda3/envs/sci/lib/python3.11/site-packages/starlette/routing.py", line 76, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/home/PJLAB/wangxuehui/miniconda3/envs/sci/lib/python3.11/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/PJLAB/wangxuehui/miniconda3/envs/sci/lib/python3.11/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/PJLAB/wangxuehui/miniconda3/envs/sci/lib/python3.11/site-packages/starlette/routing.py", line 73, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "/home/PJLAB/wangxuehui/miniconda3/envs/sci/lib/python3.11/site-packages/fastapi/routing.py", line 301, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/PJLAB/wangxuehui/miniconda3/envs/sci/lib/python3.11/site-packages/fastapi/routing.py", line 214, in run_endpoint_function
+    return await run_in_threadpool(dependant.call, **values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/PJLAB/wangxuehui/miniconda3/envs/sci/lib/python3.11/site-packages/starlette/concurrency.py", line 37, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/PJLAB/wangxuehui/miniconda3/envs/sci/lib/python3.11/site-packages/anyio/to_thread.py", line 56, in run_sync
+    return await get_async_backend().run_sync_in_worker_thread(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/PJLAB/wangxuehui/miniconda3/envs/sci/lib/python3.11/site-packages/anyio/_backends/_asyncio.py", line 2470, in run_sync_in_worker_thread
+    return await future
+           ^^^^^^^^^^^^
+  File "/home/PJLAB/wangxuehui/miniconda3/envs/sci/lib/python3.11/site-packages/anyio/_backends/_asyncio.py", line 967, in run
+    result = context.run(func, *args)
+             ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/code/ScienceBoard/env_server/env_server_launch.py", line 93, in reset
+    print("screenshot type",screenshot.dtype)
+                            ^^^^^^^^^^^^^^^^
+AttributeError: 'bytes' object has no attribute 'dtype'
