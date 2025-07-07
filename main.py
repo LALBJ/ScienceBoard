@@ -6,6 +6,7 @@ sys.stdout.reconfigure(encoding="utf-8")
 from sci import Automata, Tester, OBS
 from sci import AllInOne, AIOAgent
 from sci import SeeAct, PlannerAgent, GrounderAgent
+from sci import Disentangled, CoderAgent, ActorAgent
 
 # commercial models
 gpt_4o = lambda cls: Automata(
@@ -80,6 +81,13 @@ os_atlas = lambda cls: Automata(
     code_style="atlas"
 )(cls)
 
+gui_actor = lambda cls: Automata(
+    model_style="gui_actor",
+    base_url=os.environ["GUI_ACTOR_URL"],
+    model_name=os.environ["GUI_ACTOR_NAME"],
+    code_style="gui_actor"
+)(cls)
+
 uground = lambda cls: Automata(
     model_style="openai",
     base_url=os.environ["UGROUND_URL"],
@@ -105,6 +113,10 @@ if __name__ == "__main__":
 
     SA_NAME = "tars_dpo->tars_dpo"
     SA_GROUP = SeeAct(tars_dpo(PlannerAgent), tars_dpo(GrounderAgent))
+
+    # Disentangled for screenshot setting
+    DT_NAME = "gpt_4o->gui-actor"
+    DT_GROUP = Disentangled(gpt_4o(CoderAgent), gui_actor(ActorAgent))
 
     # register a tester and execute it
     # Tester(
