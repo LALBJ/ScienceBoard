@@ -12,3 +12,5 @@
 
 .vmware_lck
 .vmware_vms
+
+log_env_api
