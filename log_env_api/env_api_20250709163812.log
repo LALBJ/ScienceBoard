@@ -1,0 +1,24 @@
+]11;?\]10;?\
+   FastAPI   Starting production server 🚀
+ 
+             Searching for package file structure from directories with __init__.py files
+             Importing from /data/code/ScienceBoard/env_server
+ 
+    module   🐍 env_server_launch.py
+ 
+      code   Importing the FastAPI app object from the module with the following code:
+ 
+             from env_server_launch import app
+ 
+       app   Using import string: env_server_launch:app
+ 
+    server   Server started at http://0.0.0.0:10036
+    server   Documentation at http://0.0.0.0:10036/docs
+ 
+             Logs:
+ 
+]11;?\]10;?\]11;?\]10;?\      INFO   Started server process [2154915]
+      INFO   Waiting for application startup.
+      INFO   Application startup complete.
+      INFO   Uvicorn running on http://0.0.0.0:10036 (Press CTRL+C to quit)
+      INFO   127.0.0.1:60712 - "GET / HTTP/1.1" 200

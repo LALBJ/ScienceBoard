@@ -12,41 +12,28 @@
  
        app   Using import string: env_server_launch:app
  
-    server   Server started at http://0.0.0.0:10018
-    server   Documentation at http://0.0.0.0:10018/docs
+    server   Server started at http://0.0.0.0:10039
+    server   Documentation at http://0.0.0.0:10039/docs
  
              Logs:
  
-]11;?\]10;?\]11;?\]10;?\      INFO   Started server process [3761121]
+]11;?\]10;?\]11;?\]10;?\      INFO   Started server process [2372785]
       INFO   Waiting for application startup.
       INFO   Application startup complete.
-      INFO   Uvicorn running on http://0.0.0.0:10018 (Press CTRL+C to quit)
-      INFO   127.0.0.1:44782 - "GET / HTTP/1.1" 200
-[2025-07-02 14:37:35] [env api] vitual machine starting...
+      INFO   Uvicorn running on http://0.0.0.0:10039 (Press CTRL+C to quit)
+      INFO   127.0.0.1:55672 - "GET / HTTP/1.1" 200
+[2025-07-09 19:15:09] [env api] vitual machine starting...
 Starting VMware VM...
-[2025-07-02 14:37:36] [env api] vitual machine done.
-      INFO   127.0.0.1:44796 - "POST /start HTTP/1.1" 200
-      INFO   127.0.0.1:44808 - "POST /get_task_config HTTP/1.1" 200
-[2025-07-02 14:37:38] [env api] env reset starting...
+[2025-07-09 19:15:09] [env api] vitual machine done.
+      INFO   127.0.0.1:55684 - "POST /start HTTP/1.1" 200
+      INFO   127.0.0.1:55690 - "POST /get_task_config HTTP/1.1" 200
+[2025-07-09 19:15:11] [env api] env reset starting...
 Starting VMware VM...
 execute payload /bin/bash /home/user/server/reset.sh True
 base url http://192.168.23.129:5000/setup/execute
 request payload {'json': {'command': '/bin/bash /home/user/server/reset.sh', 'shell': True}, 'headers': {'Content-Type': 'application/json'}}
-Failed when requesting POST/setup/execute: 403
-Error when requesting POST/setup/execute: Expecting value: line 1 column 1 (char 0)
-API server reset response: False
-base url http://192.168.23.129:5000/opt
-request payload {'json': {'depth': 6}, 'headers': {'Content-Type': 'application/json'}}
-Failed when requesting POST/opt: 403
-Error when requesting POST/opt: Expecting value: line 1 column 1 (char 0)
-execute payload LD_LIBRARY_PATH=/home/user/6.5.0/gcc_64/lib /app/bin/celestia-qt6 8000 True
-base url http://192.168.23.129:5000/setup/launch
-request payload {'json': {'command': 'LD_LIBRARY_PATH=/home/user/6.5.0/gcc_64/lib /app/bin/celestia-qt6 8000', 'shell': True}, 'headers': {'Content-Type': 'application/json'}}
-Failed when requesting POST/setup/launch: 403
-Error when requesting POST/setup/launch: Expecting value: line 1 column 1 (char 0)
-logging succeed False
-[2025-07-02 14:38:08] [env api] env reset done...
-      INFO   127.0.0.1:44812 - "POST /reset HTTP/1.1" 500
+API server reset response: True
+      INFO   127.0.0.1:55702 - "POST /reset HTTP/1.1" 500
      ERROR   Exception in ASGI application
 Traceback (most recent call last):
   File "/home/PJLAB/wangxuehui/miniconda3/envs/sci/lib/python3.11/site-packages/uvicorn/protocols/http/httptools_impl.py", line 409, in run_asgi
@@ -102,7 +89,13 @@ Traceback (most recent call last):
   File "/home/PJLAB/wangxuehui/miniconda3/envs/sci/lib/python3.11/site-packages/anyio/_backends/_asyncio.py", line 967, in run
     result = context.run(func, *args)
              ^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/data/code/ScienceBoard/env_server/env_server_launch.py", line 93, in reset
-    print("screenshot type",screenshot.dtype)
-                            ^^^^^^^^^^^^^^^^
-AttributeError: 'NoneType' object has no attribute 'dtype'
+  File "/data/code/ScienceBoard/env_server/env_server_launch.py", line 104, in reset
+    obs = manager.reset(task_config=task_config)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/code/ScienceBoard/env_server/manager/base.py", line 84, in reset
+    succeed = func(**init_item)
+              ^^^^^^^^^^^^^^^^^
+  File "/data/code/ScienceBoard/env_server/manager/base.py", line 76, in func
+    result = handler(**kwargs)
+             ^^^^^^^^^^^^^^^^^
+TypeError: vm_touch() missing 1 required positional argument: 'manager'

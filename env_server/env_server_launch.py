@@ -86,7 +86,7 @@ def get_task_config(request: Request):
 
 @app.post("/reset")
 def reset(request: Request):
-    try:
+    # try:
         data = get_json_data(request)
         task_config = data.get("task_config", None)
         if task_config is None:
@@ -108,9 +108,9 @@ def reset(request: Request):
         obs['screenshot'] = screenshot_b64
         return JSONResponse({"obs": obs, "success": True})
 
-    except Exception as e:
-        print(f"[{get_time()}] [env api] reset failed:", e)
-        return JSONResponse({"success": False, "message": str(e)})
+    # except Exception as e:
+    #     print(f"[{get_time()}] [env api] reset failed:", e)
+    #     return JSONResponse({"success": False, "message": str(e)})
 
 
 @app.get("/evaluate")
@@ -121,4 +121,17 @@ def evaluate():
     except Exception as e:
         print(f"[{get_time()}] [env api] evaluate failed:", e)
         import traceback; traceback.print_exc()
+        return JSONResponse({"success": False, "message": str(e)})
+
+@app.post("/close")
+def close():
+    if manager is None:
+        print(f"[{get_time()}] [env api] No env to close.")
+        return JSONResponse({"success": True})
+    try:
+        manager.close()
+        print(f"[{get_time()}] [env api] vitual machine close.")
+        return JSONResponse({"success": True})
+    except Exception as e:
+        print(f"[{get_time()}] [env api] closing vitual machine failed:", e)
         return JSONResponse({"success": False, "message": str(e)})

@@ -17,7 +17,6 @@ class ManagerMixin:
     STARTUP_WAIT_TIME = 5
 
     def __init__(self, ip: str, port: int) -> None:
-        import ipdb; ipdb.set_trace()
         # legality is not checked due to inner usage
         self.base_url = f"http://{ip}:{port}"
         self._get = lambda path: requests.get(

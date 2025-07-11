@@ -27,6 +27,7 @@ class ManagerMixin:
         self: Union["RawManager", "VMManager"],
         command: str
     ) -> Tuple[List[str], bool]:
+        import ipdb; ipdb.set_trace()
         response = self._execute(command)
         return (
             response["log messages"]["note"],

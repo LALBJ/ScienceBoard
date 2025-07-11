@@ -12,38 +12,40 @@
  
        app   Using import string: env_server_launch:app
  
-    server   Server started at http://0.0.0.0:10016
-    server   Documentation at http://0.0.0.0:10016/docs
+    server   Server started at http://0.0.0.0:10033
+    server   Documentation at http://0.0.0.0:10033/docs
  
              Logs:
  
-]11;?\]10;?\]11;?\]10;?\      INFO   Started server process [3756785]
+]11;?\]10;?\]11;?\]10;?\      INFO   Started server process [2123580]
       INFO   Waiting for application startup.
       INFO   Application startup complete.
-      INFO   Uvicorn running on http://0.0.0.0:10016 (Press CTRL+C to quit)
-      INFO   127.0.0.1:45366 - "GET / HTTP/1.1" 200
-[2025-07-02 14:30:22] [env api] vitual machine starting...
+      INFO   Uvicorn running on http://0.0.0.0:10033 (Press CTRL+C to quit)
+      INFO   127.0.0.1:43666 - "GET / HTTP/1.1" 200
+[2025-07-09 16:19:27] [env api] vitual machine starting...
 Starting VMware VM...
-[2025-07-02 14:30:23] [env api] vitual machine done.
-      INFO   127.0.0.1:45380 - "POST /start HTTP/1.1" 200
-      INFO   127.0.0.1:45390 - "POST /get_task_config HTTP/1.1" 200
-[2025-07-02 14:30:25] [env api] env reset starting...
+[2025-07-09 16:19:28] [env api] vitual machine done.
+      INFO   127.0.0.1:43678 - "POST /start HTTP/1.1" 200
+      INFO   127.0.0.1:43682 - "POST /get_task_config HTTP/1.1" 200
+[2025-07-09 16:19:30] [env api] env reset starting...
 Starting VMware VM...
 execute payload /bin/bash /home/user/server/reset.sh True
 base url http://192.168.23.129:5000/setup/execute
 request payload {'json': {'command': '/bin/bash /home/user/server/reset.sh', 'shell': True}, 'headers': {'Content-Type': 'application/json'}}
-Failed when requesting POST/setup/execute: 403
-API server reset response: False
-base url http://192.168.23.129:5000/opt
-request payload {'json': {'depth': 6}, 'headers': {'Content-Type': 'application/json'}}
-Failed when requesting POST/opt: 403
-execute payload LD_LIBRARY_PATH=/home/user/6.5.0/gcc_64/lib /app/bin/celestia-qt6 8000 True
+API server reset response: True
+execute payload ['rm', '/home/user/.local/share/ChimeraX/commands', '/home/user/.local/share/ChimeraX/file_history', '/home/user/.local/share/ChimeraX/preregistration'] False
+base url http://192.168.23.129:5000/setup/execute
+request payload {'json': {'command': ['rm', '/home/user/.local/share/ChimeraX/commands', '/home/user/.local/share/ChimeraX/file_history', '/home/user/.local/share/ChimeraX/preregistration'], 'shell': False}, 'headers': {'Content-Type': 'application/json'}}
+execute payload rm -f /home/user/.config/ChimeraX/ui-* True
+base url http://192.168.23.129:5000/setup/execute
+request payload {'json': {'command': 'rm -f /home/user/.config/ChimeraX/ui-*', 'shell': True}, 'headers': {'Content-Type': 'application/json'}}
+execute payload ['chimerax', '--cmd', 'remotecontrol rest start json true port 8000'] False
 base url http://192.168.23.129:5000/setup/launch
-request payload {'json': {'command': 'LD_LIBRARY_PATH=/home/user/6.5.0/gcc_64/lib /app/bin/celestia-qt6 8000', 'shell': True}, 'headers': {'Content-Type': 'application/json'}}
-Failed when requesting POST/setup/launch: 403
-logging succeed False
-[2025-07-02 14:30:54] [env api] env reset done...
-      INFO   127.0.0.1:45402 - "POST /reset HTTP/1.1" 500
+request payload {'json': {'command': ['chimerax', '--cmd', 'remotecontrol rest start json true port 8000'], 'shell': False}, 'headers': {'Content-Type': 'application/json'}}
+base url http://192.168.23.129:5000/chimerax/run
+request payload {'json': {'command': 'log clear'}, 'headers': {'Content-Type': 'application/json'}}
+logging succeed True
+      INFO   127.0.0.1:43692 - "POST /reset HTTP/1.1" 500
      ERROR   Exception in ASGI application
 Traceback (most recent call last):
   File "/home/PJLAB/wangxuehui/miniconda3/envs/sci/lib/python3.11/site-packages/uvicorn/protocols/http/httptools_impl.py", line 409, in run_asgi
@@ -99,7 +101,10 @@ Traceback (most recent call last):
   File "/home/PJLAB/wangxuehui/miniconda3/envs/sci/lib/python3.11/site-packages/anyio/_backends/_asyncio.py", line 967, in run
     result = context.run(func, *args)
              ^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/data/code/ScienceBoard/env_server/env_server_launch.py", line 93, in reset
-    print("screenshot type",screenshot.dtype)
-                            ^^^^^^^^^^^^^^^^
-AttributeError: 'NoneType' object has no attribute 'dtype'
+  File "/data/code/ScienceBoard/env_server/env_server_launch.py", line 104, in reset
+    obs = manager.reset(task_config=task_config)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/code/ScienceBoard/env_server/manager/base.py", line 91, in reset
+    self.metric = module.function_map[task_config["type"]](self, task_config)
+                  ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+KeyError: 'ChimeraX'

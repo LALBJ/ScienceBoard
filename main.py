@@ -98,8 +98,8 @@ uground = lambda cls: Automata(
 
 tars_dpo = lambda cls: Automata(
     model_style="openai",
-    base_url="http://10.140.60.177:30009/v1/chat/completions",#os.environ["TARS_DPO_URL"],
-    model_name="ui-tars",#os.environ["TARS_DPO_NAME"],
+    base_url="http://10.140.60.67:18011/v1/chat/completions",#os.environ["TARS_DPO_URL"],
+    model_name="ui_tars",#os.environ["TARS_DPO_NAME"],
     overflow_style="openai_lmdeploy",
     code_style="uitars1_5"
 )(cls)
@@ -111,12 +111,12 @@ if __name__ == "__main__":
     AIO_NAME = "tars_dpo"
     AIO_GROUP = AllInOne(tars_dpo(AIOAgent))
 
-    SA_NAME = "tars_dpo->tars_dpo"
-    SA_GROUP = SeeAct(tars_dpo(PlannerAgent), tars_dpo(GrounderAgent))
+    # SA_NAME = "tars_dpo->tars_dpo"
+    # SA_GROUP = SeeAct(tars_dpo(PlannerAgent), tars_dpo(GrounderAgent))
 
     # Disentangled for screenshot setting
-    DT_NAME = "gpt_4o->gui-actor"
-    DT_GROUP = Disentangled(gpt_4o(CoderAgent), gui_actor(ActorAgent))
+    # DT_NAME = "gpt_4o->gui-actor"
+    # DT_GROUP = Disentangled(gpt_4o(CoderAgent), gui_actor(ActorAgent))
 
     # register a tester and execute it
     # Tester(
@@ -135,6 +135,7 @@ if __name__ == "__main__":
             "community": AIO_GROUP,
             "vm_path": os.environ["VM_PATH"],
             "obs_types": {OBS.screenshot},
+            # "parallel": True,
             "headless": True
         },
         # {

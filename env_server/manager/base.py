@@ -53,11 +53,14 @@ class BaseManager:
         logger.info("Emulator started.")
         self.controller = self.env.controller
         logger.info("Reset API Server in the virtual machine...")
-        response = self._execute(
+        response = BaseManager._execute(
+            self=self,
             command="/bin/bash /home/user/server/reset.sh",
             shell=True
         )
         print("API server reset response:", response)
+
+        self.sort = task_config["sort"]
 
         local_name = lambda func: f"_{func}"
         global_name = lambda func: f"{self.sort.lower()}_{func}"
@@ -76,8 +79,9 @@ class BaseManager:
         
         initialize = task_config.get("initialize", [])
         for init_item in initialize:
-                succeed = False
-                succeed = func(**init_item)
+            time.sleep(1)
+            succeed = False
+            succeed = func(**init_item)
         
         print("logging succeed", succeed)
         time.sleep(2)
@@ -247,3 +251,19 @@ class BaseManager:
                 "content": content
             }
         }
+    
+    def close(self):
+        # Close (release) the virtual machine
+        self.env.provider.stop_emulator(self.env.path_to_vm)
+    
+    def _touch(self, text:str, path: str) -> bool:
+        return self.write_file(path, text)
+    
+    def write_file(self, file_path: str, data: str) -> bool:
+        response = self._request(f"POST/write", {
+            "json": {
+                "path": file_path.replace("\\", "/"),
+                "content": data
+            }
+        })
+        return response.text == "OK"

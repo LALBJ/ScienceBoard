@@ -376,7 +376,6 @@ class Task:
             stop_type, stop_args = self.predict()
         self.vlog.info(f"Starting evaluation with stop type of {stop_type.__name__}.")
 
-        import ipdb; ipdb.set_trace()
         return self.eval(stop_type, stop_args)
 
     @_avail_handler

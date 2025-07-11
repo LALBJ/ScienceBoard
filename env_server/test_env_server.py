@@ -37,7 +37,7 @@ def test_start():
 
 def test_get_task_config():
     payload = {
-        "domain": "Celestia",
+        "domain": "TeXstudio",
         "example_id": "A-01"
     }
     response = requests.post(f"{BASE_URL}/get_task_config", json=payload)
@@ -46,7 +46,7 @@ def test_get_task_config():
 
 def test_reset():
     payload = {
-        "domain": "Celestia",
+        "domain": "TeXstudio",
         "example_id": "A-01"
     }
     response = requests.post(f"{BASE_URL}/reset", json=payload)
@@ -100,8 +100,8 @@ if __name__ == "__main__":
     test_reset()
     # time.sleep(1)
     # test_step()
-    time.sleep(10)
-    test_evaluate()
+    # time.sleep(10)
+    # test_evaluate()
     # time.sleep(1)
     # # test_vm_platform()
     # # time.sleep(1)

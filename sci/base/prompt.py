@@ -1204,38 +1204,6 @@ SCROLL: to scroll in the specified direction.
         ])
 
 
-<<<<<<< HEAD
-if __name__ == "__main__":
-    content = ""
-    parsed_responses = parse_action_qwen2vl(
-        content,
-        1000, #action_parse_res_factor,
-        800, #screen_size[1],
-        1280, #screen_size[0]
-    )
-    import ipdb; ipdb.set_trace()
-
-        # action_codes = []
-        # for parsed_response in parsed_responses:
-        #     if "action_type" in parsed_response:
-        #         if parsed_response["action_type"] == FINISH_WORD:
-        #             action_codes.append(["DONE"])
-                
-        #         elif parsed_response["action_type"] == WAIT_WORD:
-        #             action_codes.append(["WAIT"])
-                
-        #         elif parsed_response["action_type"] == ENV_FAIL_WORD:
-        #             action_codes.append(["FAIL"])
-
-        #     try:
-        #         pyautogui_code = parsing_response_to_pyautogui_code(
-        #             parsed_response,
-        #             1000, #action_parse_res_factor,
-        #             800, #screen_size[1],
-        #             1280, #screen_size[0]
-        #         )
-        #         action_codes.append(pyautogui_code)
-=======
 class CoderPromptFactory(AIOPromptFactory):
     PLACEHOLDER = "pyautogui.click(_, _)"
 
@@ -1264,4 +1232,3 @@ class ActorPromptFactory(PromptFactory):
     ) -> Callable[[str], str]:
         # prompts are processed at server side
         return lambda _: ""
->>>>>>> upstream/vm-para

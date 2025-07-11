@@ -12,35 +12,28 @@
  
        app   Using import string: env_server_launch:app
  
-    server   Server started at http://0.0.0.0:10019
-    server   Documentation at http://0.0.0.0:10019/docs
+    server   Server started at http://0.0.0.0:10038
+    server   Documentation at http://0.0.0.0:10038/docs
  
              Logs:
  
-]11;?\]10;?\]11;?\]10;?\      INFO   Started server process [3763600]
+]11;?\]10;?\]11;?\]10;?\      INFO   Started server process [2165669]
       INFO   Waiting for application startup.
       INFO   Application startup complete.
-      INFO   Uvicorn running on http://0.0.0.0:10019 (Press CTRL+C to quit)
-      INFO   127.0.0.1:51198 - "GET / HTTP/1.1" 200
-[2025-07-02 14:42:15] [env api] vitual machine starting...
+      INFO   Uvicorn running on http://0.0.0.0:10038 (Press CTRL+C to quit)
+      INFO   127.0.0.1:39840 - "GET / HTTP/1.1" 200
+[2025-07-09 16:45:06] [env api] vitual machine starting...
 Starting VMware VM...
-[2025-07-02 14:42:16] [env api] vitual machine done.
-      INFO   127.0.0.1:51208 - "POST /start HTTP/1.1" 200
-      INFO   127.0.0.1:51222 - "POST /get_task_config HTTP/1.1" 200
-[2025-07-02 14:42:18] [env api] env reset starting...
+[2025-07-09 16:45:07] [env api] vitual machine done.
+      INFO   127.0.0.1:39844 - "POST /start HTTP/1.1" 200
+      INFO   127.0.0.1:39850 - "POST /get_task_config HTTP/1.1" 200
+[2025-07-09 16:45:09] [env api] env reset starting...
 Starting VMware VM...
 execute payload /bin/bash /home/user/server/reset.sh True
 base url http://192.168.23.129:5000/setup/execute
 request payload {'json': {'command': '/bin/bash /home/user/server/reset.sh', 'shell': True}, 'headers': {'Content-Type': 'application/json'}}
 API server reset response: True
-base url http://192.168.23.129:5000/opt
-request payload {'json': {'depth': 6}, 'headers': {'Content-Type': 'application/json'}}
-execute payload LD_LIBRARY_PATH=/home/user/6.5.0/gcc_64/lib /app/bin/celestia-qt6 8000 True
-base url http://192.168.23.129:5000/setup/launch
-request payload {'json': {'command': 'LD_LIBRARY_PATH=/home/user/6.5.0/gcc_64/lib /app/bin/celestia-qt6 8000', 'shell': True}, 'headers': {'Content-Type': 'application/json'}}
-logging succeed True
-[2025-07-02 14:42:39] [env api] env reset done...
-      INFO   127.0.0.1:51226 - "POST /reset HTTP/1.1" 500
+      INFO   127.0.0.1:39860 - "POST /reset HTTP/1.1" 500
      ERROR   Exception in ASGI application
 Traceback (most recent call last):
   File "/home/PJLAB/wangxuehui/miniconda3/envs/sci/lib/python3.11/site-packages/uvicorn/protocols/http/httptools_impl.py", line 409, in run_asgi
@@ -96,7 +89,13 @@ Traceback (most recent call last):
   File "/home/PJLAB/wangxuehui/miniconda3/envs/sci/lib/python3.11/site-packages/anyio/_backends/_asyncio.py", line 967, in run
     result = context.run(func, *args)
              ^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/data/code/ScienceBoard/env_server/env_server_launch.py", line 93, in reset
-    print("screenshot type",screenshot.dtype)
-                            ^^^^^^^^^^^^^^^^
-AttributeError: 'bytes' object has no attribute 'dtype'
+  File "/data/code/ScienceBoard/env_server/env_server_launch.py", line 104, in reset
+    obs = manager.reset(task_config=task_config)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/code/ScienceBoard/env_server/manager/base.py", line 84, in reset
+    succeed = func(**init_item)
+              ^^^^^^^^^^^^^^^^^
+  File "/data/code/ScienceBoard/env_server/manager/base.py", line 76, in func
+    result = handler(**kwargs)
+             ^^^^^^^^^^^^^^^^^
+TypeError: vm_touch() missing 1 required positional argument: 'manager'
