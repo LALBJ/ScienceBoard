@@ -1,0 +1,58 @@
+]11;?\]10;?\
+   FastAPI   Starting production server 🚀
+ 
+             Searching for package file structure from directories with __init__.py files
+             Importing from /data/code/ScienceBoard/env_server
+ 
+    module   🐍 env_server_launch.py
+ 
+      code   Importing the FastAPI app object from the module with the following code:
+ 
+             from env_server_launch import app
+ 
+       app   Using import string: env_server_launch:app
+ 
+    server   Server started at http://0.0.0.0:10043
+    server   Documentation at http://0.0.0.0:10043/docs
+ 
+             Logs:
+ 
+]11;?\]10;?\]11;?\]10;?\      INFO   Started server process [2397167]
+      INFO   Waiting for application startup.
+      INFO   Application startup complete.
+      INFO   Uvicorn running on http://0.0.0.0:10043 (Press CTRL+C to quit)
+      INFO   127.0.0.1:60838 - "GET / HTTP/1.1" 200
+[2025-07-09 19:30:36] [env api] vitual machine starting...
+Starting VMware VM...
+[2025-07-09 19:30:37] [env api] vitual machine done.
+      INFO   127.0.0.1:60850 - "POST /start HTTP/1.1" 200
+      INFO   127.0.0.1:60852 - "POST /get_task_config HTTP/1.1" 200
+[2025-07-09 19:30:39] [env api] env reset starting...
+Starting VMware VM...
+execute payload /bin/bash /home/user/server/reset.sh True
+base url http://192.168.23.129:5000/setup/execute
+request payload {'json': {'command': '/bin/bash /home/user/server/reset.sh', 'shell': True}, 'headers': {'Content-Type': 'application/json'}}
+API server reset response: True
+base url http://192.168.23.129:5000/write
+request payload {'json': {'path': '/home/user/atelier/main.tex', 'content': '\\documentclass[11pt,a4paper]{article}\n\\usepackage[utf8]{inputenc}\n\\usepackage[english]{babel}\n\n\\begin{document}\n\n\\noindent {\\bfseries\\LARGE Bond Angles in Protein Structures \\par}\n\\bigskip\\noindent\n\nBond angles between atoms in proteins play a crucial role in determining their three-dimensional conformation and, consequently, their function. These angles, particularly between atoms of adjacent residues or functional groups, are influenced by steric constraints, electronic interactions, and the chemical nature of the amino acids involved.\n\nFor instance, in the crystal structure of the protein with PDB ID 3PPD, the angle formed between the atoms /A GLN4 OE1, OXT, and GLN3 OE1 is approximately xxx.xx degrees. This specific angle reflects the spatial arrangement of terminal and side-chain oxygen atoms, which may be involved in hydrogen bonding or electrostatic interactions, contributing to local stability within the protein structure. Such geometric information is essential for understanding protein folding, interactions, and for applications in molecular modeling and drug design.\n\n\\end{document}\n'}, 'headers': {'Content-Type': 'application/json'}}
+execute payload texstudio /home/user/atelier/main.tex True
+base url http://192.168.23.129:5000/setup/launch
+request payload {'json': {'command': 'texstudio /home/user/atelier/main.tex', 'shell': True}, 'headers': {'Content-Type': 'application/json'}}
+execute payload ['rm', '/home/user/.local/share/ChimeraX/commands', '/home/user/.local/share/ChimeraX/file_history', '/home/user/.local/share/ChimeraX/preregistration'] False
+base url http://192.168.23.129:5000/setup/execute
+request payload {'json': {'command': ['rm', '/home/user/.local/share/ChimeraX/commands', '/home/user/.local/share/ChimeraX/file_history', '/home/user/.local/share/ChimeraX/preregistration'], 'shell': False}, 'headers': {'Content-Type': 'application/json'}}
+execute payload rm -f /home/user/.config/ChimeraX/ui-* True
+base url http://192.168.23.129:5000/setup/execute
+request payload {'json': {'command': 'rm -f /home/user/.config/ChimeraX/ui-*', 'shell': True}, 'headers': {'Content-Type': 'application/json'}}
+execute payload ['chimerax', '--cmd', 'remotecontrol rest start json true port 8000'] False
+base url http://192.168.23.129:5000/setup/launch
+request payload {'json': {'command': ['chimerax', '--cmd', 'remotecontrol rest start json true port 8000'], 'shell': False}, 'headers': {'Content-Type': 'application/json'}}
+base url http://192.168.23.129:5000/chimerax/run
+request payload {'json': {'command': 'log clear'}, 'headers': {'Content-Type': 'application/json'}}
+base url http://192.168.23.129:5000/chimerax/run
+request payload {'json': {'command': 'open 2olx'}, 'headers': {'Content-Type': 'application/json'}}
+base url http://192.168.23.129:5000/chimerax/run
+request payload {'json': {'command': 'turn y 1'}, 'headers': {'Content-Type': 'application/json'}}
+logging succeed True
+[2025-07-09 19:31:21] [env api] env reset done...
+      INFO   127.0.0.1:60858 - "POST /reset HTTP/1.1" 200

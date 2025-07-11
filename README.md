@@ -6,6 +6,7 @@
 ![License](https://img.shields.io/badge/License-MIT-blue)
 [![Paper page](https://huggingface.co/datasets/huggingface/badges/resolve/main/paper-page-sm.svg)](https://huggingface.co/papers/2505.19897)
 [![Discord](https://img.shields.io/discord/1222168244673314847?logo=discord&style=flat)](https://discord.com/invite/rXS2XbgfaD)
+[![🌐 Website](https://img.shields.io/badge/Website-🌐-informational)](https://qiushisun.github.io/ScienceBoard-Home/)
 
 Code, environment and data for "ScienceBoard: Evaluating Multimodal Autonomous Agents in Realistic Scientific Workflows"
 
@@ -13,7 +14,7 @@ Code, environment and data for "ScienceBoard: Evaluating Multimodal Autonomous A
 ## 🗞️ Updates
 - **2025-06-08**: ScienceBoard will be presented at [WCUA@ICML 2025](https://www.icml-computeruseagents.com/) as an oral paper. 🚀
 - **2025-06-04**: We release the [virtual machine snapshot](https://huggingface.co/OS-Copilot/ScienceBoard-Env) of ScienceBoard.
-- **2025-05-27**: Initial release of our [paper](https://arxiv.org/abs/2505.19897), environment, benchmark, and [project page](https://qiushisun.github.io/ScienceBoard-Home/). Check it out! 🚀
+- **2025-05-27**: Initial release of our [paper](https://arxiv.org/abs/2505.19897), environment, benchmark, and [🌐 Project Website](https://qiushisun.github.io/ScienceBoard-Home/). Check it out! 🚀
 
 
 ## 🛠️ Usage
@@ -47,13 +48,14 @@ The infrastructure of the framework is based on [OSWorld](https://github.com/xla
 
     and variables for open-source models:
 
-    |  Model   |    Base URL     |       Name       |
-    | :------: | :-------------: | :--------------: |
-    |  QwenVL  |  `QWEN_VL_URL`  |  `QWEN_VL_NAME`  |
-    | InternVL | `INTERN_VL_URL` | `INTERN_VL_NAME` |
-    |   QVQ    |  `QVQ_VL_URL`   |  `QVQ_VL_NAME`   |
-    | OS-Atlas |  `OS_ACT_URL`   |  `OS_ACT_NAME`   |
-    | UI-Tars  | `TARS_DPO_URL`  | `TARS_DPO_NAME`  |
+    |   Model   |    Base URL     |       Name       |
+    | :-------: | :-------------: | :--------------: |
+    |  QwenVL   |  `QWEN_VL_URL`  |  `QWEN_VL_NAME`  |
+    | InternVL  | `INTERN_VL_URL` | `INTERN_VL_NAME` |
+    |    QVQ    |  `QVQ_VL_URL`   |  `QVQ_VL_NAME`   |
+    | OS-Atlas  |  `OS_ACT_URL`   |  `OS_ACT_NAME`   |
+    | GUI-Actor | `GUI_ACTOR_URL` | `GUI_ACTOR_NAME` |
+    |  UI-Tars  | `TARS_DPO_URL`  | `TARS_DPO_NAME`  |
 
 2. Used in [`sci/Presets.py`](sci/Presets.py):
     - `LEAN_LIB_PATH`: path for Lean 4 REPL;
@@ -71,16 +73,20 @@ The infrastructure of the framework is based on [OSWorld](https://github.com/xla
 
 ### 📏 Parameter Config
 1. [`Automata`](sci/Tester.py?plain=1#L87): a simple encapsulation for [`Model`](sci/base/model.py?plain=1#L144) and [`Agent`](sci/base/agent.py?plain=1#L51)
-    - `model_style`: affect the request format and response processing of model calling; you can customize your own style by adding `_request_{style}()` under [`Model`](sci/base/model.py?plain=1#L144);
+    - `model_style`: affect the request format and response processing of model calling; you can customize your own style by adding `_request_{style}()` and `_access_{style}()` under [`Model`](sci/base/model.py?plain=1#L144);
     - `overflow_style`: affect the way we detect overflow of token; you can customize your own style by adding `{style}()` under [`Overflow`](sci/base/agent.py?plain=1#L24);
     - `code_style`: affect the way we process code blocks when communicating with models; you can customize your own style by adding `wrap_{style}()` and `extract_{style}()` under [`CodeLike`](sci/base/prompt.py?plain=1#L84).
 2. [`Tester`](sci/Tester.py?plain=1#L225): `__init__()` only register a new config. use `__call__()` for actual evaluation after init.
     - `tasks_path`: the directory or file path for json file(s) of task(s); all `*.json` files under the path specified will be recursively loaded when a directory path is provided;
     - `logs_path`: the directory path for log files and will be created automatically when not existed; the structure of the directory will be arranged according to that under `tasks_path`;
     - `community`: the way of cooperation among multiple agents; use [`AllInOne`](sci/base/community.py?plain=1#L52) for standard setting inherited from OSWorld;
+    - `parallel`: (experimental) run multiple VMs at the same time in a single machine; multi-process or multi-thread are both supported;
     - `ignore`: skipped when log indicates that the task is finished (by checking the existence of `result.out`) if set to `True`; so you can re-run the same program to retry failure cases only;
     - `debug`: finish the tasks manually instead of calling models;
     - `relative`: allow VM to execute `pyautogui` codes with relative coordinates; basically used by InternVL-3.
+
+> [!CAUTION]
+> Pay attention to `/tmp/sci_board.cfg` where configs of `parallel` are stored when it is set to `True`. Abnormal exit (such as `kill`) may lead to  fatal inconsistency.
 
 ### 🚧 Possible Exceptions
 1. Error when initializing:
@@ -156,6 +162,33 @@ The infrastructure of the framework is based on [OSWorld](https://github.com/xla
 
     fail to authenticate in newly downloaded images; input password once manually in VMWare and take a new snapshot using the same name as before and delete the former one.
 
+3. VM is mistakenly occupied when `parallel` is set to `True`:
+
+    ```shell
+    Traceback (most recent call last):
+        File "sci/Tester.py", line 353, in __traverse
+            new_task = self.__load(unknown_path)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^
+        File "sci/Tester.py", line 340, in __load
+            manager=self.__manager(type_sort),
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^
+        File "sci/Tester.py", line 322, in __manager
+            manager = manager_class(**manager_args)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        File "sci/KAlgebra/kalgebra.py", line 113, in __init__
+            super().__init__(*args, **kwargs)
+        File "sci/vm/vmanager.py", line 74, in __init__
+            self.__vmx_path()
+        File "sci/vm/vmanager.py", line 206, in __vmx_path
+            vmxs_cfg = self.__vmx_unify(self.__read_vmx_cfg())
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        File "sci/vm/vmanager.py", line 180, in __vmx_unify
+            assert len([
+                ^^^^^
+        AssertionError: VM already in use
+    ```
+
+    the remaining config of `/tmp/sci_board.cfg` failed to be cleared automatically; try to delete it manually.
 
 ## 🧑‍💻 Development Manual
 ### 🧩 Introduction of New Apps
@@ -172,9 +205,17 @@ If you are willing to add new applications into ScienceBoard, please make sure t
     - [`__init__.py`](sci/Template/__init__.py): change the name of `template.py`.
 3. Write json files of tasks and modified VM images.
 
-### 🖼️ Crafting VM Image from Scratch
+### 🖼️ Crafting VM Image from Scratch 
 See [Staff Manual of VM Image](vm_config/manual.md).
 
+### 💻 Recommended Configuration 
+
+It is recommended to run this project with at least the following configuration:
+
+- CPU: Intel Core i7-11700
+- GPU: Integrated graphics is sufficient
+- Memory: 32 GB RAM
+- Storage: > 100 GB available disk space
 
 ## 🤔 FAQ
 We have collected some questions from emails, Hugging Face, and WeChat communications. Please check the [FAQ](https://github.com/OS-Copilot/ScienceBoard/blob/main/faq.md) 🤖

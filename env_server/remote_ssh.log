@@ -1,0 +1,184 @@
+[19:43:13.040] Log Level: 2
+[19:43:13.054] VS Code version: 1.85.2
+[19:43:13.054] Remote-SSH version: remote-ssh@0.107.1
+[19:43:13.054] linux x64
+[19:43:13.085] SSH Resolver called for "ssh-remote+wwy_209", attempt 1
+[19:43:13.086] "remote.SSH.useLocalServer": true
+[19:43:13.086] "remote.SSH.useExecServer": false
+[19:43:13.086] "remote.SSH.path": undefined
+[19:43:13.086] "remote.SSH.configFile": ~/.ssh/config2
+[19:43:13.086] "remote.SSH.useFlock": true
+[19:43:13.086] "remote.SSH.lockfilesInTmp": false
+[19:43:13.087] "remote.SSH.localServerDownload": auto
+[19:43:13.090] "remote.SSH.remoteServerListenOnSocket": false
+[19:43:13.090] "remote.SSH.showLoginTerminal": false
+[19:43:13.090] "remote.SSH.defaultExtensions": ["anyscalecompute.anyscale-workspaces","ms-python.python","ms-toolsai.jupyter-renderers","ms-toolsai.jupyter-keymap","ms-toolsai.jupyter"]
+[19:43:13.090] "remote.SSH.loglevel": 2
+[19:43:13.090] "remote.SSH.enableDynamicForwarding": true
+[19:43:13.091] "remote.SSH.enableRemoteCommand": false
+[19:43:13.091] "remote.SSH.serverPickPortsFromRange": {}
+[19:43:13.092] "remote.SSH.serverInstallPath": {"wwy_209":"/mnt/petrelfs/wangweiyun/workspace_ls"}
+[19:43:13.099] SSH Resolver called for host: wwy_209
+[19:43:13.099] Setting up SSH remote "wwy_209"
+[19:43:13.103] Acquiring local install lock: /tmp/vscode-remote-ssh-f7eedf00-install.lock
+[19:43:13.104] Looking for existing server data file at /home/PJLAB/wangxuehui/.config/Code/User/globalStorage/ms-vscode-remote.remote-ssh/vscode-ssh-host-f7eedf00-8b3775030ed1a69b13e4f4c628c612102e30a681-0.107.1-tr/data.json
+[19:43:13.105] Found local server running: {"remoteListeningOn":{"port":38199},"osReleaseId":"centos","arch":"x86_64","webUiAccessToken":"","sshAuthSock":"","display":"","tmpDir":"/run/user/200000628","platform":"linux","connectionToken":"1a11a1a1-11a1-1aaa-111a-aaa111aa1111","pid":2676203,"ipcHandlePath":"/run/user/409475832/vscode-ssh-askpass-559d53566bf22c80ff0d93a7d2dcca7e69058234.sock","socksPort":46487,"startupTime":1751875924265}
+[19:43:13.116] Found running server - short-circuiting install
+[19:43:13.119] Starting forwarding server. local port 42545 -> socksPort 46487 -> remotePort 38199
+[19:43:13.119] Forwarding server listening on port 42545
+[19:43:13.120] Waiting for ssh tunnel to be ready
+[19:43:13.121] [Forwarding server port 42545] Got connection 0
+[19:43:13.122] Tunneled port 38199 to local port 42545
+[19:43:13.122] Resolved "ssh-remote+wwy_209" to "port 42545"
+[19:43:13.131] ------
+
+
+
+
+[19:43:13.153] [Forwarding server port 42545] Got connection 1
+[19:43:13.206] [Forwarding server port 42545] Got connection 2
+[19:43:13.686] [Forwarding server port 42545] Got connection 3
+[19:43:20.792] Opening exec server for ssh-remote+wwy_209
+[19:43:20.805] Initizing new exec server for ssh-remote+wwy_209
+[19:43:20.824] Acquiring local install lock: /tmp/vscode-remote-ssh-f7eedf00-install.lock
+[19:43:20.831] Looking for existing server data file at /home/PJLAB/wangxuehui/.config/Code/User/globalStorage/ms-vscode-remote.remote-ssh/vscode-ssh-host-f7eedf00-8b3775030ed1a69b13e4f4c628c612102e30a681-0.107.1-es/data.json
+[19:43:20.833] Using commit id "8b3775030ed1a69b13e4f4c628c612102e30a681" and quality "stable" for server
+[19:43:20.836] Install and start server if needed
+[19:43:20.838] PATH: /home/PJLAB/wangxuehui/bin:/home/PJLAB/wangxuehui/miniconda3/bin:/home/PJLAB/wangxuehui/miniconda3/condabin:/usr/local/cuda-11.7/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin:/sbin
+[19:43:20.838] Checking ssh with "ssh -V"
+[19:43:20.857] > OpenSSH_8.2p1 Ubuntu-4ubuntu0.5, OpenSSL 1.1.1f  31 Mar 2020
+
+[19:43:20.861] Using SSH config file "/home/PJLAB/wangxuehui/.ssh/config2"
+[19:43:20.863] askpass server listening on /run/user/409475832/vscode-ssh-askpass-31f877d36b694615c0d10b13d2a266df8733a5b9.sock
+[19:43:20.864] Spawning local server with {"serverId":1,"ipcHandlePath":"/run/user/409475832/vscode-ssh-askpass-5f6e8459b3ee0b4b9c47d89fc258802d3c29301d.sock","sshCommand":"ssh","sshArgs":["-v","-T","-D","45475","-o","ConnectTimeout=15","-F","/home/PJLAB/wangxuehui/.ssh/config2","wwy_209","bash"],"serverDataFolderName":".vscode-server","dataFilePath":"/home/PJLAB/wangxuehui/.config/Code/User/globalStorage/ms-vscode-remote.remote-ssh/vscode-ssh-host-f7eedf00-8b3775030ed1a69b13e4f4c628c612102e30a681-0.107.1-es/data.json"}
+[19:43:20.865] Local server env: {"SSH_AUTH_SOCK":"/run/user/409475832/keyring/ssh","SHELL":"/bin/bash","DISPLAY":":1","ELECTRON_RUN_AS_NODE":"1","SSH_ASKPASS":"/home/PJLAB/wangxuehui/.vscode/extensions/ms-vscode-remote.remote-ssh-0.107.1/out/local-server/askpass.sh","VSCODE_SSH_ASKPASS_NODE":"/usr/share/code/code","VSCODE_SSH_ASKPASS_EXTRA_ARGS":"--ms-enable-electron-run-as-node","VSCODE_SSH_ASKPASS_MAIN":"/home/PJLAB/wangxuehui/.vscode/extensions/ms-vscode-remote.remote-ssh-0.107.1/out/askpass-main.js","VSCODE_SSH_ASKPASS_HANDLE":"/run/user/409475832/vscode-ssh-askpass-31f877d36b694615c0d10b13d2a266df8733a5b9.sock"}
+[19:43:20.871] Spawned 2764191
+[19:43:20.981] > local-server-1> Running ssh connection command: "-v -T -D 45475 -o ConnectTimeout=15 -F /home/PJLAB/wangxuehui/.ssh/config2 wwy_209 bash"
+[19:43:20.985] > local-server-1> Spawned ssh, pid=2764199
+[19:43:20.995] stderr> OpenSSH_8.2p1 Ubuntu-4ubuntu0.5, OpenSSL 1.1.1f  31 Mar 2020
+[19:43:21.007] stderr> debug1: Server host key: ssh-rsa SHA256:FKCCRcq1WxQdOHXT4EGvU2GQPBmD6SlscGHmhX6Xai4
+[19:43:21.184] Got askpass request: {"request":"wangweiyun@wangweiyun@10.140.60.209@jump.pjlab.org.cn's password:"}
+[19:43:21.185] Showing password prompt
+[19:43:21.186] Listening for interwindow password on /run/user/409475832/vscode-ssh-askpass-4aefa28f545180154e71adaad0b620f5883fbfba.sock
+[19:43:21.186] Writing password prompt to globalState
+[19:43:26.485] Got password response
+[19:43:26.486] Interactor gave response: *************
+[19:43:26.486] Cleaning up other-window auth server
+[19:43:26.553] stderr> Authenticated to jump.pjlab.org.cn ([10.140.3.211]:22).
+[19:43:26.553] stderr> bind [::1]:45475: Cannot assign requested address
+[19:43:28.911] > Last failed login: Mon Jul  7 19:43:28 CST 2025 from 10.140.3.213 on ssh:notty
+> There were 3 failed login attempts since the last successful login.
+[19:43:30.195] > ready: 7104bc74329c
+[19:43:30.255] > Linux 3.10.0-957.el7.x86_64 #1 SMP Thu Nov 8 23:39:32 UTC 2018
+[19:43:30.255] Platform: linux
+[19:43:30.291] > /bin/bash
+[19:43:30.292] Shell: bash
+[19:43:30.292] Creating bash subshell inside "bash"
+[19:43:30.363] > bash version:  4.2.46(2)-release
+> bash version:  4.2.46(2)-release
+[19:43:30.368] > 7104bc74329c: running
+[19:43:30.589] > Found existing installation at /mnt/petrelfs/wangweiyun/workspace_ls/.vscode-server...
+[19:43:30.590] > Running ssh connection command... /mnt/petrelfs/wangweiyun/workspace_ls/.vscode-server/code-8b3775030ed1a69b13e4f4c628c612102e30a681 command-shell --cli-data-dir /mnt/petrelfs/wangweiyun/workspace_ls/.vscode-server/cli --on-port --require-token 02f504649f16 --parent-process-id 40202 &> "/mnt/petrelfs/wangweiyun/workspace_ls/.vscode-server/.cli.8b3775030ed1a69b13e4f4c628c612102e30a681.log" < /dev/null
+> printenv:
+[19:43:30.638] >     XDG_SESSION_ID=22662
+>     HOSTNAME=HOST-10-140-60-209
+>     SHELL=/bin/bash
+>     HISTSIZE=1000
+>     SSH_CLIENT=10.140.3.213 50756 22
+>     CONDA_SHLVL=2
+>     LIBRARY_PATH=/mnt/petrelfs/share/cuda-12.4/lib64:
+>     LCSK=o3fiSkvVaNRsDiLMhqA1unUNYKzWfxnyGTErZLrW
+>     CONDA_PROMPT_MODIFIER=(internvl) 
+>     VCRURL=p-ceph-norm-inside.pjlab.org.cn
+>     QT_GRAPHICSSYSTEM_CHECKED=1
+>     USER=wangweiyun
+>     HISTFILESIZE=99999
+>     LD_LIBRARY_PATH=/mnt/petrelfs/share/pytcs/deps:/mnt/petrelfs/share/libboost/lib:/mnt/petrelfs/share/gcc/gmp-4.3.2/lib:/mnt/petrelfs/share/gcc/mpfr-2.4.2/lib:/mnt/petrelfs/share/gcc/mpc-0.8.1/lib:/mnt/petrelfs/share/gcc/gcc-9.4.0/lib64:/mnt/petrelfs/share/cuda-12.4/lib64:
+>     CONDA_EXE=/mnt/petrelfs/wangweiyun/miniconda3/bin/conda
+>     LC2AK=MAJM96BEIBMKTNX51926
+>     LC2SK=F3tL7CN33633S5Xiaf1uFkGXICbxsWYW7sM5ZzzU
+>     VSCODE_AGENT_FOLDER=/mnt/petrelfs/wangweiyun/workspace_ls/.vscode-server
+>     _CE_CONDA=
+>     CONDA_PREFIX_1=/mnt/petrelfs/wangweiyun/miniconda3
+>     PATH=/mnt/petrelfs/wangweiyun/bin:/mnt/petrelfs/wangweiyun/pkgs/jre-10.0.2/bin:/mnt/petrelfs/share/gcc/gcc-9.4.0/bin:/mnt/petrelfs/share/cuda-12.4/nsight-systems-2022.1.3/bin:/mnt/petrelfs/share/cuda-12.4/bin:/mnt/petrelfs/wangweiyun/miniconda3/envs/internvl/bin:/mnt/petrelfs/wangweiyun/miniconda3/condabin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/mnt/petrelfs/wangweiyun/.local/bin:/mnt/petrelfs/wangweiyun/bin
+>     MAIL=/var/spool/mail/wangweiyun
+>     CONDA_PREFIX=/mnt/petrelfs/wangweiyun/miniconda3/envs/internvl
+>     PWD=/mnt/hwfile/wangweiyun
+>     JAVA_HOME=/mnt/petrelfs/wangweiyun/pkgs/jre-10.0.2
+>     LANG=en_US.UTF-8
+>     MODULEPATH=/usr/share/Modules/modulefiles:/etc/modulefiles
+>     LOADEDMODULES=
+>     LCAK=H9HBOW256ACSZ0G62JGG
+>     LCURL=p-ceph-norm-inside.pjlab.org.cn
+>     HISTCONTROL=ignoredups
+>     _CE_M=
+>     CXX=/mnt/petrelfs/share/gcc/gcc-9.4.0/bin/g++
+>     VCRSK=kDjMV8tnmsHbWthwS8t8VFw3
+>     SSH_PRIVATE_KEY_PATH=/mnt/petrelfs/wangweiyun/.ssh/id_ed25519
+>     HOME=/mnt/petrelfs/wangweiyun
+>     SHLVL=2
+>     LOGNAME=wangweiyun
+>     CONDA_PYTHON_EXE=/mnt/petrelfs/wangweiyun/miniconda3/bin/python
+>     PYTHONPATH=/mnt/petrelfs/wangweiyun/workspace_wwy/pkgs/petrel-oss-sdk-2.3.14:
+>     SSH_CONNECTION=10.140.3.213 50756 10.140.60.209 22
+>     MODULESHOME=/usr/share/Modules
+>     LESSOPEN=||/usr/bin/lesspipe.sh %s
+>     CONDA_DEFAULT_ENV=internvl
+>     PROMPT_COMMAND={ msg=$(history 1 | { read x y; echo $y; }); logger "[euid=$(whoami)]":$(who am i):[`pwd`]"$msg";}
+>     XDG_RUNTIME_DIR=/run/user/200000628
+>     CC=/mnt/petrelfs/share/gcc/gcc-9.4.0/bin/gcc
+>     LC2URL=p-ceph-hdd2-outside.pjlab.org.cn
+>     VCRAK=7NejJ8EBKSWStJLv
+>     HISTTIMEFORMAT=%F %T wangweiyun 
+>     BASH_FUNC_module()=() {  eval `/usr/bin/modulecmd bash $*`
+>     }
+>     _=/usr/bin/printenv
+[19:43:30.662] > Removing old logfile at /mnt/petrelfs/wangweiyun/workspace_ls/.vscode-server/.cli.8b3775030ed1a69b13e4f4c628c612102e30a681.log
+[19:43:30.696] > Spawned remote CLI: 40337
+[19:43:30.949] > Waiting for server log...
+[19:43:31.082] > 7104bc74329c: start
+> SSH_AUTH_SOCK====
+> DISPLAY====
+> listeningOn==127.0.0.1:33065==
+> osReleaseId==centos==
+> arch==x86_64==
+> vscodeArch==x64==
+> bitness==64==
+> tmpDir==/run/user/200000628==
+> platform==linux==
+> unpackResult====
+> didLocalDownload==0==
+> downloadTime====
+> installTime====
+> serverStartTime==420==
+> execServerToken==02f504649f16==
+> 7104bc74329c: end
+[19:43:31.083] Received install output: 
+SSH_AUTH_SOCK====
+DISPLAY====
+listeningOn==127.0.0.1:33065==
+osReleaseId==centos==
+arch==x86_64==
+vscodeArch==x64==
+bitness==64==
+tmpDir==/run/user/200000628==
+platform==linux==
+unpackResult====
+didLocalDownload==0==
+downloadTime====
+installTime====
+serverStartTime==420==
+execServerToken==02f504649f16==
+
+[19:43:31.084] Remote server is listening on port 33065
+[19:43:31.084] Parsed server configuration: {"serverConfiguration":{"remoteListeningOn":{"port":33065},"osReleaseId":"centos","arch":"x86_64","sshAuthSock":"","display":"","tmpDir":"/run/user/200000628","platform":"linux","execServerToken":"02f504649f16"},"serverStartTime":420,"installUnpackCode":""}
+[19:43:31.084] Persisting server connection details to /home/PJLAB/wangxuehui/.config/Code/User/globalStorage/ms-vscode-remote.remote-ssh/vscode-ssh-host-f7eedf00-8b3775030ed1a69b13e4f4c628c612102e30a681-0.107.1-es/data.json
+[19:43:31.086] Starting forwarding server. local port 34153 -> socksPort 45475 -> remotePort 33065
+[19:43:31.086] Forwarding server listening on port 34153
+[19:43:31.086] Waiting for ssh tunnel to be ready
+[19:43:31.087] [Forwarding server port 34153] Got connection 0
+[19:43:31.087] Tunneled port 33065 to local port 34153
+[19:43:31.088] Resolved "ssh-remote+wwy_209" to "port 34153"
+[19:43:31.088] Resolving exec server at port 34153
+[19:43:31.088] [Forwarding server port 34153] Got connection 1
+[19:43:31.129] Exec server for ssh-remote+wwy_209 created and cached

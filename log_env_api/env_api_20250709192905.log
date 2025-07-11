@@ -1,0 +1,141 @@
+]11;?\]10;?\
+   FastAPI   Starting production server 🚀
+ 
+             Searching for package file structure from directories with __init__.py files
+             Importing from /data/code/ScienceBoard/env_server
+ 
+    module   🐍 env_server_launch.py
+ 
+      code   Importing the FastAPI app object from the module with the following code:
+ 
+             from env_server_launch import app
+ 
+       app   Using import string: env_server_launch:app
+ 
+    server   Server started at http://0.0.0.0:10042
+    server   Documentation at http://0.0.0.0:10042/docs
+ 
+             Logs:
+ 
+]11;?\]10;?\]11;?\]10;?\      INFO   Started server process [2394874]
+      INFO   Waiting for application startup.
+      INFO   Application startup complete.
+      INFO   Uvicorn running on http://0.0.0.0:10042 (Press CTRL+C to quit)
+      INFO   127.0.0.1:40474 - "GET / HTTP/1.1" 200
+[2025-07-09 19:29:19] [env api] vitual machine starting...
+Starting VMware VM...
+[2025-07-09 19:29:19] [env api] vitual machine done.
+      INFO   127.0.0.1:40486 - "POST /start HTTP/1.1" 200
+      INFO   127.0.0.1:40502 - "POST /get_task_config HTTP/1.1" 200
+[2025-07-09 19:29:21] [env api] env reset starting...
+Starting VMware VM...
+execute payload /bin/bash /home/user/server/reset.sh True
+base url http://192.168.23.129:5000/setup/execute
+request payload {'json': {'command': '/bin/bash /home/user/server/reset.sh', 'shell': True}, 'headers': {'Content-Type': 'application/json'}}
+API server reset response: True
+base url http://192.168.23.129:5000/write
+request payload {'json': {'path': '/home/user/atelier/main.tex', 'content': '\\documentclass[11pt,a4paper]{article}\n\\usepackage[utf8]{inputenc}\n\\usepackage[english]{babel}\n\n\\begin{document}\n\n\\noindent {\\bfseries\\LARGE Bond Angles in Protein Structures \\par}\n\\bigskip\\noindent\n\nBond angles between atoms in proteins play a crucial role in determining their three-dimensional conformation and, consequently, their function. These angles, particularly between atoms of adjacent residues or functional groups, are influenced by steric constraints, electronic interactions, and the chemical nature of the amino acids involved.\n\nFor instance, in the crystal structure of the protein with PDB ID 3PPD, the angle formed between the atoms /A GLN4 OE1, OXT, and GLN3 OE1 is approximately xxx.xx degrees. This specific angle reflects the spatial arrangement of terminal and side-chain oxygen atoms, which may be involved in hydrogen bonding or electrostatic interactions, contributing to local stability within the protein structure. Such geometric information is essential for understanding protein folding, interactions, and for applications in molecular modeling and drug design.\n\n\\end{document}\n'}, 'headers': {'Content-Type': 'application/json'}}
+execute payload texstudio /home/user/atelier/main.tex True
+base url http://192.168.23.129:5000/setup/launch
+request payload {'json': {'command': 'texstudio /home/user/atelier/main.tex', 'shell': True}, 'headers': {'Content-Type': 'application/json'}}
+execute payload ['rm', '/home/user/.local/share/ChimeraX/commands', '/home/user/.local/share/ChimeraX/file_history', '/home/user/.local/share/ChimeraX/preregistration'] False
+base url http://192.168.23.129:5000/setup/execute
+request payload {'json': {'command': ['rm', '/home/user/.local/share/ChimeraX/commands', '/home/user/.local/share/ChimeraX/file_history', '/home/user/.local/share/ChimeraX/preregistration'], 'shell': False}, 'headers': {'Content-Type': 'application/json'}}
+execute payload rm -f /home/user/.config/ChimeraX/ui-* True
+base url http://192.168.23.129:5000/setup/execute
+request payload {'json': {'command': 'rm -f /home/user/.config/ChimeraX/ui-*', 'shell': True}, 'headers': {'Content-Type': 'application/json'}}
+execute payload ['chimerax', '--cmd', 'remotecontrol rest start json true port 8000'] False
+base url http://192.168.23.129:5000/setup/launch
+request payload {'json': {'command': ['chimerax', '--cmd', 'remotecontrol rest start json true port 8000'], 'shell': False}, 'headers': {'Content-Type': 'application/json'}}
+base url http://192.168.23.129:5000/chimerax/run
+request payload {'json': {'command': 'log clear'}, 'headers': {'Content-Type': 'application/json'}}
+      INFO   127.0.0.1:40504 - "POST /reset HTTP/1.1" 500
+     ERROR   Exception in ASGI application
+Traceback (most recent call last):
+  File "/home/PJLAB/wangxuehui/miniconda3/envs/sci/lib/python3.11/site-packages/requests/models.py", line 971, in json
+    return complexjson.loads(self.text, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/PJLAB/wangxuehui/miniconda3/envs/sci/lib/python3.11/json/__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/PJLAB/wangxuehui/miniconda3/envs/sci/lib/python3.11/json/decoder.py", line 337, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/PJLAB/wangxuehui/miniconda3/envs/sci/lib/python3.11/json/decoder.py", line 355, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/PJLAB/wangxuehui/miniconda3/envs/sci/lib/python3.11/site-packages/uvicorn/protocols/http/httptools_impl.py", line 409, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/PJLAB/wangxuehui/miniconda3/envs/sci/lib/python3.11/site-packages/uvicorn/middleware/proxy_headers.py", line 60, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/PJLAB/wangxuehui/miniconda3/envs/sci/lib/python3.11/site-packages/fastapi/applications.py", line 1054, in __call__
+    await super().__call__(scope, receive, send)
+  File "/home/PJLAB/wangxuehui/miniconda3/envs/sci/lib/python3.11/site-packages/starlette/applications.py", line 112, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/home/PJLAB/wangxuehui/miniconda3/envs/sci/lib/python3.11/site-packages/starlette/middleware/errors.py", line 187, in __call__
+    raise exc
+  File "/home/PJLAB/wangxuehui/miniconda3/envs/sci/lib/python3.11/site-packages/starlette/middleware/errors.py", line 165, in __call__
+    await self.app(scope, receive, _send)
+  File "/home/PJLAB/wangxuehui/miniconda3/envs/sci/lib/python3.11/site-packages/starlette/middleware/exceptions.py", line 62, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/home/PJLAB/wangxuehui/miniconda3/envs/sci/lib/python3.11/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/PJLAB/wangxuehui/miniconda3/envs/sci/lib/python3.11/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/PJLAB/wangxuehui/miniconda3/envs/sci/lib/python3.11/site-packages/starlette/routing.py", line 714, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/home/PJLAB/wangxuehui/miniconda3/envs/sci/lib/python3.11/site-packages/starlette/routing.py", line 734, in app
+    await route.handle(scope, receive, send)
+  File "/home/PJLAB/wangxuehui/miniconda3/envs/sci/lib/python3.11/site-packages/starlette/routing.py", line 288, in handle
+    await self.app(scope, receive, send)
+  File "/home/PJLAB/wangxuehui/miniconda3/envs/sci/lib/python3.11/site-packages/starlette/routing.py", line 76, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/home/PJLAB/wangxuehui/miniconda3/envs/sci/lib/python3.11/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/PJLAB/wangxuehui/miniconda3/envs/sci/lib/python3.11/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/PJLAB/wangxuehui/miniconda3/envs/sci/lib/python3.11/site-packages/starlette/routing.py", line 73, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "/home/PJLAB/wangxuehui/miniconda3/envs/sci/lib/python3.11/site-packages/fastapi/routing.py", line 301, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/PJLAB/wangxuehui/miniconda3/envs/sci/lib/python3.11/site-packages/fastapi/routing.py", line 214, in run_endpoint_function
+    return await run_in_threadpool(dependant.call, **values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/PJLAB/wangxuehui/miniconda3/envs/sci/lib/python3.11/site-packages/starlette/concurrency.py", line 37, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/PJLAB/wangxuehui/miniconda3/envs/sci/lib/python3.11/site-packages/anyio/to_thread.py", line 56, in run_sync
+    return await get_async_backend().run_sync_in_worker_thread(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/PJLAB/wangxuehui/miniconda3/envs/sci/lib/python3.11/site-packages/anyio/_backends/_asyncio.py", line 2470, in run_sync_in_worker_thread
+    return await future
+           ^^^^^^^^^^^^
+  File "/home/PJLAB/wangxuehui/miniconda3/envs/sci/lib/python3.11/site-packages/anyio/_backends/_asyncio.py", line 967, in run
+    result = context.run(func, *args)
+             ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/code/ScienceBoard/env_server/env_server_launch.py", line 104, in reset
+    obs = manager.reset(task_config=task_config)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/code/ScienceBoard/env_server/manager/base.py", line 84, in reset
+    succeed = func(**init_item)
+              ^^^^^^^^^^^^^^^^^
+  File "/data/code/ScienceBoard/env_server/manager/base.py", line 76, in func
+    result = handler(**kwargs)
+             ^^^^^^^^^^^^^^^^^
+  File "/data/code/ScienceBoard/env_server/manager/TeXstudio/manager.py", line 30, in _chimerax_clear_log
+    return self._chimerax_execute(f"log clear")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/code/ScienceBoard/env_server/manager/TeXstudio/manager.py", line 21, in _chimerax_execute
+    ).json()["error"] is None
+      ^^^^^^
+  File "/home/PJLAB/wangxuehui/miniconda3/envs/sci/lib/python3.11/site-packages/requests/models.py", line 975, in json
+    raise RequestsJSONDecodeError(e.msg, e.doc, e.pos)
+requests.exceptions.JSONDecodeError: Expecting value: line 1 column 1 (char 0)

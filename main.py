@@ -6,6 +6,7 @@ sys.stdout.reconfigure(encoding="utf-8")
 from sci import Automata, Tester, OBS
 from sci import AllInOne, AIOAgent
 from sci import SeeAct, PlannerAgent, GrounderAgent
+from sci import Disentangled, CoderAgent, ActorAgent
 
 # commercial models
 gpt_4o = lambda cls: Automata(
@@ -80,6 +81,13 @@ os_atlas = lambda cls: Automata(
     code_style="atlas"
 )(cls)
 
+gui_actor = lambda cls: Automata(
+    model_style="gui_actor",
+    base_url=os.environ["GUI_ACTOR_URL"],
+    model_name=os.environ["GUI_ACTOR_NAME"],
+    code_style="gui_actor"
+)(cls)
+
 uground = lambda cls: Automata(
     model_style="openai",
     base_url=os.environ["UGROUND_URL"],
@@ -90,8 +98,8 @@ uground = lambda cls: Automata(
 
 tars_dpo = lambda cls: Automata(
     model_style="openai",
-    base_url="http://10.140.60.166:30009/v1/chat/completions",#os.environ["TARS_DPO_URL"],
-    model_name="ui-tars",#os.environ["TARS_DPO_NAME"],
+    base_url="http://10.140.60.67:18011/v1/chat/completions",#os.environ["TARS_DPO_URL"],
+    model_name="ui_tars",#os.environ["TARS_DPO_NAME"],
     overflow_style="openai_lmdeploy",
     code_style="uitars1_5"
 )(cls)
@@ -103,8 +111,12 @@ if __name__ == "__main__":
     AIO_NAME = "tars_dpo"
     AIO_GROUP = AllInOne(tars_dpo(AIOAgent))
 
-    SA_NAME = "tars_dpo->tars_dpo"
-    SA_GROUP = SeeAct(tars_dpo(PlannerAgent), tars_dpo(GrounderAgent))
+    # SA_NAME = "tars_dpo->tars_dpo"
+    # SA_GROUP = SeeAct(tars_dpo(PlannerAgent), tars_dpo(GrounderAgent))
+
+    # Disentangled for screenshot setting
+    # DT_NAME = "gpt_4o->gui-actor"
+    # DT_GROUP = Disentangled(gpt_4o(CoderAgent), gui_actor(ActorAgent))
 
     # register a tester and execute it
     # Tester(
@@ -123,6 +135,7 @@ if __name__ == "__main__":
             "community": AIO_GROUP,
             "vm_path": os.environ["VM_PATH"],
             "obs_types": {OBS.screenshot},
+            # "parallel": True,
             "headless": True
         },
         # {

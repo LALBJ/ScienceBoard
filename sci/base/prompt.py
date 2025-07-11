@@ -823,6 +823,19 @@ class CodeLike:
         return doc_str
 
     @staticmethod
+    def extract_gui_actor(content: TextContent, *args, **kwargs) -> List[Self]:
+        coord: List[int] = json.loads(content.text)
+        return [CodeLike(
+            code=f"pyautogui.click({coord[0]}, {coord[1]})",
+            prefix=relative_py
+        )]
+
+    @staticmethod
+    def wrap_gui_actor(doc_str: str) -> str:
+        # this function will not be called
+        return doc_str
+
+    @staticmethod
     def extract_uground(content: TextContent, *args, **kwargs) -> List[Self]:
         def parse(code: str) -> str:
             match_obj = re.match(r'\((\d+), ?(\d+)\)', code)
@@ -1191,33 +1204,31 @@ SCROLL: to scroll in the specified direction.
         ])
 
 
-if __name__ == "__main__":
-    content = ""
-    parsed_responses = parse_action_qwen2vl(
-        content,
-        1000, #action_parse_res_factor,
-        800, #screen_size[1],
-        1280, #screen_size[0]
-    )
-    import ipdb; ipdb.set_trace()
+class CoderPromptFactory(AIOPromptFactory):
+    PLACEHOLDER = "pyautogui.click(_, _)"
 
-        # action_codes = []
-        # for parsed_response in parsed_responses:
-        #     if "action_type" in parsed_response:
-        #         if parsed_response["action_type"] == FINISH_WORD:
-        #             action_codes.append(["DONE"])
-                
-        #         elif parsed_response["action_type"] == WAIT_WORD:
-        #             action_codes.append(["WAIT"])
-                
-        #         elif parsed_response["action_type"] == ENV_FAIL_WORD:
-        #             action_codes.append(["FAIL"])
+    # second section: _command
+    RETURN_SUPPLEMENT_VM = AIOPromptFactory.RETURN_SUPPLEMENT_VM.copy()
+    RETURN_SUPPLEMENT_VM.update({
+        "antiquot": f"""Return one line or multiple lines of python code to perform the action each time, and be time efficient.
+When predicting multiple lines of code, make some small sleep like `time.sleep(0.5);` interval so that the machine could take breaks.
+Each time you need to predict a complete code, and no variables or function can be shared from history.
+If you have no idea about the exact coordinate when calling `pyautogui.click`, use `{PLACEHOLDER}` instead and your placeholder will be resolved by a grounding model afterward.
+DO NOT forget to comment with your target element before the placeholder command to give a hint to the grounding model:
+```
+# click the shield icon
+{PLACEHOLDER}
+```
+NEVER issue more than one `{PLACEHOLDER}` in one step.
+DO NOT use placeholder in codes other than `click` functions."""
+    })
 
-        #     try:
-        #         pyautogui_code = parsing_response_to_pyautogui_code(
-        #             parsed_response,
-        #             1000, #action_parse_res_factor,
-        #             800, #screen_size[1],
-        #             1280, #screen_size[0]
-        #         )
-        #         action_codes.append(pyautogui_code)
+
+class ActorPromptFactory(PromptFactory):
+    def __call__(
+        self,
+        obs: FrozenSet[str],
+        type_sort: TypeSort
+    ) -> Callable[[str], str]:
+        # prompts are processed at server side
+        return lambda _: ""

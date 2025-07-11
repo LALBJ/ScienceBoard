@@ -1,0 +1,44 @@
+]11;?\]10;?\
+   FastAPI   Starting production server 🚀
+ 
+             Searching for package file structure from directories with __init__.py files
+             Importing from /data/code/ScienceBoard/env_server
+ 
+    module   🐍 env_server_launch.py
+ 
+      code   Importing the FastAPI app object from the module with the following code:
+ 
+             from env_server_launch import app
+ 
+       app   Using import string: env_server_launch:app
+ 
+    server   Server started at http://0.0.0.0:10035
+    server   Documentation at http://0.0.0.0:10035/docs
+ 
+             Logs:
+ 
+]11;?\]10;?\]11;?\]10;?\      INFO   Started server process [2147396]
+      INFO   Waiting for application startup.
+      INFO   Application startup complete.
+      INFO   Uvicorn running on http://0.0.0.0:10035 (Press CTRL+C to quit)
+      INFO   127.0.0.1:49090 - "GET / HTTP/1.1" 200
+[2025-07-09 16:33:50] [env api] vitual machine starting...
+Starting VMware VM...
+[2025-07-09 16:33:50] [env api] vitual machine done.
+      INFO   127.0.0.1:49092 - "POST /start HTTP/1.1" 200
+      INFO   127.0.0.1:49106 - "POST /get_task_config HTTP/1.1" 200
+[2025-07-09 16:33:52] [env api] env reset starting...
+Starting VMware VM...
+execute payload /bin/bash /home/user/server/reset.sh True
+base url http://192.168.23.129:5000/setup/execute
+request payload {'json': {'command': '/bin/bash /home/user/server/reset.sh', 'shell': True}, 'headers': {'Content-Type': 'application/json'}}
+API server reset response: True
+execute payload rm -rf /home/user/grassdata/*/*/.gislock True
+base url http://192.168.23.129:5000/setup/execute
+request payload {'json': {'command': 'rm -rf /home/user/grassdata/*/*/.gislock', 'shell': True}, 'headers': {'Content-Type': 'application/json'}}
+execute payload gnome-terminal -- /bin/bash -ic "FLASK_PORT=8000 grass --gui /home/user/grassdata/world_latlong_wgs84/PERMANENT" True
+base url http://192.168.23.129:5000/setup/launch
+request payload {'json': {'command': 'gnome-terminal -- /bin/bash -ic "FLASK_PORT=8000 grass --gui /home/user/grassdata/world_latlong_wgs84/PERMANENT"', 'shell': True}, 'headers': {'Content-Type': 'application/json'}}
+logging succeed True
+[2025-07-09 16:34:13] [env api] env reset done...
+      INFO   127.0.0.1:49118 - "POST /reset HTTP/1.1" 200
